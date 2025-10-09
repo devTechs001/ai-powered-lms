@@ -1,0 +1,852 @@
+# BUILDING AI-Powered LMS - Technical Documentation
+
+## Table of Contents
+1. [Project Structure](#project-structure)
+2. [Technology Stack](#technology-stack)
+3. [System Architecture](#system-architecture)
+4. [Core Features Implementation](#core-features-implementation)
+5. [AI Integration](#ai-integration)
+6. [Database Design](#database-design)
+7. [API Endpoints](#api-endpoints)
+8. [Real-time Features](#real-time-features)
+9. [Deployment & PWA](#deployment--pwa)
+
+## Project Structure
+
+```
+lms-ai-platform/
+├── client/                 # React Vite Frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── auth/
+│   │   │   ├── dashboard/
+│   │   │   ├── common/
+│   │   │   ├── ai/
+│   │   │   └── layout/
+│   │   ├── pages/
+│   │   ├── hooks/
+│   │   ├── context/
+│   │   ├── utils/
+│   │   ├── styles/
+│   │   └── assets/
+├── server/                 # Node.js Backend
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── services/
+│   ├── utils/
+│   └── config/
+├── shared/                 # Shared utilities
+└── docs/                  # Documentation
+```
+
+## Technology Stack
+
+### Frontend
+- **React 18** with Vite
+- **TypeScript**
+- **Tailwind CSS**
+- **Socket.io Client**
+- **React Query/TanStack Query**
+- **Framer Motion** (animations)
+- **Chart.js** (analytics)
+- **PWA Utilities**
+
+### Backend
+- **Node.js** with Express
+- **MongoDB** with Mongoose
+- **Socket.io**
+- **JWT** Authentication
+- **bcrypt** for encryption
+- **Multer** for file uploads
+- **Nodemailer** for emails
+
+### AI Services
+- **OpenAI API** / **Google Gemini**
+- **LangChain** for AI workflows
+- **Vector Databases** for embeddings
+- **WebRTC** for live sessions
+
+## System Architecture
+
+```mermaid
+graph TB
+    A[Client - React Vite] --> B[API Gateway - Express]
+    B --> C[Auth Service]
+    B --> D[Course Service]
+    B --> E[AI Service]
+    B --> F[Analytics Service]
+    B --> G[Live Session Service]
+    
+    C --> H[(MongoDB - Users)]
+    D --> I[(MongoDB - Courses)]
+    E --> J[AI Providers]
+    F --> K[(MongoDB - Analytics)]
+    G --> L[WebRTC/Socket.io]
+    
+    M[PWA Service Worker] --> A
+    N[Push Notifications] --> A
+```
+
+## 1. Auth System Implementation
+
+### Models
+```javascript
+// models/User.js
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { 
+    type: String, 
+    enum: ['student', 'instructor', 'admin', 'developer'],
+    default: 'student'
+  },
+  profile: {
+    firstName: String,
+    lastName: String,
+    avatar: String,
+    bio: String,
+    specialization: String
+  },
+  isVerified: { type: Boolean, default: false },
+  verificationToken: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
+  preferences: {
+    theme: { type: String, default: 'light' },
+    notifications: { type: Boolean, default: true }
+  }
+}, { timestamps: true });
+```
+
+### Components
+```jsx
+// client/src/components/auth/LoginForm.jsx
+import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+
+export default function LoginForm() {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const { login, isLoading } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        type="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={(e) => setFormData({...formData, email: e.target.value})}
+        className="w-full p-3 border rounded-lg"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={(e) => setFormData({...formData, password: e.target.value})}
+        className="w-full p-3 border rounded-lg"
+      />
+      <button 
+        type="submit" 
+        disabled={isLoading}
+        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+      >
+        {isLoading ? 'Signing in...' : 'Sign In'}
+      </button>
+    </form>
+  );
+}
+```
+
+## 2. Dashboard System
+
+### Role-Based Dashboards
+```jsx
+// client/src/components/dashboard/DashboardRouter.jsx
+import { useAuth } from '../../context/AuthContext';
+
+export default function DashboardRouter() {
+  const { user } = useAuth();
+
+  const renderDashboard = () => {
+    switch(user.role) {
+      case 'admin':
+        return <AdminDashboard />;
+      case 'instructor':
+        return <InstructorDashboard />;
+      case 'student':
+        return <StudentDashboard />;
+      case 'developer':
+        return <DeveloperDashboard />;
+      default:
+        return <StudentDashboard />;
+    }
+  };
+
+  return (
+    <div className="flex h-screen">
+      <SideNavbar />
+      <div className="flex-1 flex flex-col">
+        <TopNavbar />
+        <main className="flex-1 p-6 overflow-auto">
+          {renderDashboard()}
+        </main>
+      </div>
+    </div>
+  );
+}
+```
+
+### Admin Dashboard Components
+```jsx
+// client/src/components/dashboard/AdminDashboard.jsx
+export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalCourses: 0,
+    activeSessions: 0,
+    revenue: 0
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <StatCard title="Total Users" value={stats.totalUsers} icon="👥" />
+        <StatCard title="Total Courses" value={stats.totalCourses} icon="📚" />
+        <StatCard title="Active Sessions" value={stats.activeSessions} icon="🔴" />
+        <StatCard title="Revenue" value={`$${stats.revenue}`} icon="💰" />
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <RecentActivity />
+        <UserGrowthChart />
+      </div>
+    </div>
+  );
+}
+```
+
+## 3. Splash Screen & Routing
+
+```jsx
+// client/src/App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import SplashScreen from './components/common/SplashScreen';
+import { useState, useEffect } from 'react';
+
+function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (showSplash) {
+    return <SplashScreen />;
+  }
+
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth/*" element={<AuthPages />} />
+          <Route path="/dashboard/*" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
+          <Route path="/courses/*" element={<Courses />} />
+          <Route path="/live/:sessionId" element={<LiveSession />} />
+          <Route path="/library" element={<Library />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+```
+
+## 4. Layout Components
+
+### Navigation Structure
+```jsx
+// client/src/components/layout/TopNavbar.jsx
+export default function TopNavbar() {
+  const { user, logout } = useAuth();
+  const [isDark, setIsDark] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  return (
+    <nav className="bg-white dark:bg-gray-800 shadow-sm border-b">
+      <div className="flex justify-between items-center px-6 py-4">
+        <div className="flex items-center space-x-4">
+          <h1 className="text-xl font-bold">AI LMS</h1>
+          <AIFloatingAssistant />
+        </div>
+        
+        <div className="flex items-center space-x-4">
+          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            {isDark ? '🌙' : '☀️'}
+          </button>
+          
+          <Notifications />
+          
+          <UserMenu user={user} onLogout={logout} />
+        </div>
+      </div>
+    </nav>
+  );
+}
+```
+
+## 5. AI Features Implementation
+
+### Floating AI Assistant
+```jsx
+// client/src/components/ai/AIFloatingAssistant.jsx
+import { useState, useRef } from 'react';
+import { useAIChat } from '../../hooks/useAIChat';
+
+export default function AIFloatingAssistant() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const { messages, sendMessage, isLoading } = useAIChat();
+  const messagesEndRef = useRef(null);
+
+  const handleSend = async () => {
+    if (message.trim()) {
+      await sendMessage(message);
+      setMessage('');
+    }
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50">
+      {isOpen && (
+        <div className="absolute bottom-16 right-0 w-80 h-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border">
+          <div className="flex flex-col h-full">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {messages.map((msg, index) => (
+                <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-xs p-3 rounded-lg ${
+                    msg.role === 'user' 
+                      ? 'bg-blue-500 text-white' 
+                      : 'bg-gray-200 dark:bg-gray-700'
+                  }`}>
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-lg">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+            
+            <div className="p-4 border-t">
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  placeholder="Ask me anything..."
+                  className="flex-1 p-2 border rounded-lg"
+                  disabled={isLoading}
+                />
+                <button 
+                  onClick={handleSend}
+                  disabled={isLoading}
+                  className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all"
+      >
+        <span className="text-2xl">🤖</span>
+      </button>
+    </div>
+  );
+}
+```
+
+### AI Service Backend
+```javascript
+// server/services/aiService.js
+const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+class AIService {
+  constructor() {
+    this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  }
+
+  async generateChatResponse(messages, context = {}) {
+    try {
+      const prompt = this.buildPrompt(messages, context);
+      
+      // Use OpenAI or Gemini based on configuration
+      const completion = await this.openai.chat.completions.create({
+        model: "gpt-4",
+        messages: prompt,
+        max_tokens: 500,
+        temperature: 0.7
+      });
+
+      return completion.choices[0].message.content;
+    } catch (error) {
+      console.error('AI Service Error:', error);
+      throw new Error('Failed to generate AI response');
+    }
+  }
+
+  async generateCourseContent(topic, level, style = 'academic') {
+    // AI-powered course content generation
+    const prompt = `Generate course content about ${topic} for ${level} level in ${style} style.`;
+    
+    const completion = await this.openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 1000
+    });
+
+    return this.parseCourseContent(completion.choices[0].message.content);
+  }
+
+  buildPrompt(messages, context) {
+    const systemPrompt = {
+      role: "system",
+      content: `You are an AI teaching assistant for an LMS platform. 
+      Context: User is a ${context.role} learning ${context.subject}. 
+      Provide helpful, educational responses.`
+    };
+
+    return [systemPrompt, ...messages];
+  }
+}
+
+module.exports = new AIService();
+```
+
+## 6. User Profiles & Settings
+
+```jsx
+// client/src/components/profile/UserProfile.jsx
+export default function UserProfile() {
+  const { user, updateProfile } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(user.profile);
+
+  const handleSave = async () => {
+    await updateProfile(formData);
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Profile</h2>
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          >
+            {isEditing ? 'Cancel' : 'Edit Profile'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-1">
+            <AvatarUpload 
+              currentAvatar={user.profile.avatar}
+              onAvatarChange={(url) => setFormData({...formData, avatar: url})}
+              disabled={!isEditing}
+            />
+          </div>
+          
+          <div className="md:col-span-2 space-y-4">
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  placeholder="First Name"
+                />
+                <input
+                  type="text"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  placeholder="Last Name"
+                />
+                <textarea
+                  value={formData.bio}
+                  onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  placeholder="Bio"
+                  rows="4"
+                />
+                <button
+                  onClick={handleSave}
+                  className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
+                >
+                  Save Changes
+                </button>
+              </>
+            ) : (
+              <>
+                <h3 className="text-xl font-semibold">
+                  {user.profile.firstName} {user.profile.lastName}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">{user.email}</p>
+                <p className="mt-4">{user.profile.bio}</p>
+                <div className="flex items-center space-x-2 mt-2">
+                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                    {user.role}
+                  </span>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## 7. Live Sessions Implementation
+
+### WebRTC Configuration
+```javascript
+// server/services/webrtcService.js
+const socketIO = require('socket.io');
+
+class WebRTCService {
+  constructor(server) {
+    this.io = socketIO(server, {
+      cors: {
+        origin: process.env.CLIENT_URL,
+        methods: ["GET", "POST"]
+      }
+    });
+
+    this.rooms = new Map();
+    this.setupSocketHandlers();
+  }
+
+  setupSocketHandlers() {
+    this.io.on('connection', (socket) => {
+      console.log('User connected:', socket.id);
+
+      socket.on('join-room', (roomId, userId) => {
+        socket.join(roomId);
+        
+        if (!this.rooms.has(roomId)) {
+          this.rooms.set(roomId, new Set());
+        }
+        this.rooms.get(roomId).add(userId);
+
+        socket.to(roomId).emit('user-connected', userId);
+        
+        // Send current participants to the new user
+        const participants = Array.from(this.rooms.get(roomId));
+        socket.emit('current-participants', participants);
+      });
+
+      socket.on('offer', (offer, targetUserId, roomId) => {
+        socket.to(roomId).emit('offer', offer, socket.id, targetUserId);
+      });
+
+      socket.on('answer', (answer, targetUserId, roomId) => {
+        socket.to(roomId).emit('answer', answer, socket.id, targetUserId);
+      });
+
+      socket.on('ice-candidate', (candidate, targetUserId, roomId) => {
+        socket.to(roomId).emit('ice-candidate', candidate, socket.id, targetUserId);
+      });
+
+      socket.on('disconnect', () => {
+        this.rooms.forEach((participants, roomId) => {
+          if (participants.has(socket.id)) {
+            participants.delete(socket.id);
+            socket.to(roomId).emit('user-disconnected', socket.id);
+            
+            if (participants.size === 0) {
+              this.rooms.delete(roomId);
+            }
+          }
+        });
+      });
+    });
+  }
+}
+
+module.exports = WebRTCService;
+```
+
+## 8. Analytics & Performance Tracking
+
+```javascript
+// server/models/Analytics.js
+const analyticsSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+  lessonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' },
+  eventType: { 
+    type: String, 
+    enum: [
+      'lesson_start',
+      'lesson_complete',
+      'quiz_attempt',
+      'quiz_score',
+      'video_watch',
+      'resource_download',
+      'time_spent'
+    ],
+    required: true
+  },
+  metadata: {
+    score: Number,
+    maxScore: Number,
+    timeSpent: Number, // in seconds
+    progress: Number, // percentage
+    resourceType: String
+  },
+  timestamp: { type: Date, default: Date.now }
+});
+
+// server/services/analyticsService.js
+class AnalyticsService {
+  async trackUserProgress(userId, courseId, data) {
+    const analytics = new Analytics({
+      userId,
+      courseId,
+      eventType: 'time_spent',
+      metadata: data
+    });
+    
+    await analytics.save();
+    
+    // Update user's overall progress
+    await this.updateUserProgress(userId, courseId);
+  }
+
+  async generatePerformanceReport(userId, courseId) {
+    const activities = await Analytics.find({ userId, courseId });
+    
+    const report = {
+      totalTimeSpent: this.calculateTotalTime(activities),
+      completionRate: this.calculateCompletionRate(activities),
+      averageScore: this.calculateAverageScore(activities),
+      weakAreas: this.identifyWeakAreas(activities),
+      recommendations: this.generateRecommendations(activities)
+    };
+
+    return report;
+  }
+
+  async generateAIRecommendations(userId) {
+    const userData = await this.getUserLearningData(userId);
+    const prompt = this.buildRecommendationPrompt(userData);
+    
+    return await aiService.generateChatResponse([{ role: 'user', content: prompt }]);
+  }
+}
+```
+
+## 9. Library System
+
+```javascript
+// server/models/Library.js
+const librarySchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  description: String,
+  category: [String],
+  tags: [String],
+  fileUrl: { type: String, required: true },
+  coverImage: String,
+  fileType: { 
+    type: String, 
+    enum: ['pdf', 'epub', 'video', 'audio', 'document'],
+    required: true 
+  },
+  metadata: {
+    pages: Number,
+    duration: Number, // for audio/video
+    fileSize: Number,
+    language: String,
+    publishDate: Date
+  },
+  ratings: [{
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    rating: { type: Number, min: 1, max: 5 },
+    review: String,
+    createdAt: { type: Date, default: Date.now }
+  }],
+  averageRating: { type: Number, default: 0 },
+  accessLevel: {
+    type: String,
+    enum: ['public', 'students', 'instructors', 'premium'],
+    default: 'students'
+  },
+  isFeatured: { type: Boolean, default: false }
+}, { timestamps: true });
+```
+
+## 10. PWA Implementation
+
+### Service Worker
+```javascript
+// client/public/sw.js
+const CACHE_NAME = 'lms-ai-v1';
+const urlsToCache = [
+  '/',
+  '/static/js/bundle.js',
+  '/static/css/main.css',
+  '/manifest.json'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      }
+    )
+  );
+});
+```
+
+### Manifest
+```json
+{
+  "name": "AI-Powered LMS",
+  "short_name": "AI LMS",
+  "description": "Intelligent Learning Management System",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+```
+
+## 11. Deployment & Environment Setup
+
+### Environment Variables
+```env
+# Server
+NODE_ENV=production
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/lms-ai
+JWT_SECRET=your_jwt_secret
+CLIENT_URL=http://localhost:3000
+
+# AI Services
+OPENAI_API_KEY=your_openai_key
+GEMINI_API_KEY=your_gemini_key
+
+# File Storage
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# Email
+EMAIL_SERVICE=gmail
+EMAIL_USER=your_email
+EMAIL_PASS=your_app_password
+```
+
+### Docker Configuration
+```dockerfile
+# Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["npm", "start"]
+```
+
+## Next Steps
+
+1. **Setup Development Environment**
+   - Initialize MongoDB
+   - Configure environment variables
+   - Install dependencies
+
+2. **Implement Core Features**
+   - Authentication system
+   - Basic dashboard layouts
+   - AI service integration
+
+3. **Add Advanced Features**
+   - Real-time collaboration
+   - Advanced analytics
+   - Mobile optimization
+
+4. **Testing & Deployment**
+   - Unit and integration tests
+   - Performance optimization
+   - Production deployment
+
+This documentation provides a comprehensive foundation for building your AI-powered LMS. Each section can be expanded with more detailed implementation based on specific requirements.

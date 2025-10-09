@@ -1,0 +1,36 @@
+{
+  "name": "modern-lms",
+  "version": "1.0.0",
+  "description": "AI-Powered Learning Management System",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "build": "pnpm --filter frontend build && pnpm --filter backend build",
+    "build:frontend": "pnpm --filter frontend build",
+    "build:backend": "pnpm --filter backend build",
+    "install:all": "pnpm install -r",
+    "clean": "pnpm -r exec rm -rf node_modules && pnpm install",
+    "lint": "pnpm -r run lint"
+  },
+  "keywords": ["lms", "ai", "education", "learning"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "packageManager": "pnpm@10.18.0"
+}{
+  "name": "modern-LMS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.0"
+}
