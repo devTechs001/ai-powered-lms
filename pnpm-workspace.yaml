@@ -1,4 +1,4 @@
 packages:
-  - 'frontend'
-  - 'backend'
+  - 'lms-frontend'
+  - 'lms-backend'
   - 'packages/*'

@@ -17,30 +17,247 @@
 lms-ai-platform/
 ├── client/                 # React Vite Frontend
 │   ├── public/
+│   │   ├── icons/
+│   │   ├── images/
+│   │   └── manifest.json
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── auth/
+│   │   │   │   ├── LoginForm.jsx
+│   │   │   │   ├── RegisterForm.jsx
+│   │   │   │   ├── ForgotPassword.jsx
+│   │   │   │   └── AuthGuard.jsx
 │   │   │   ├── dashboard/
-│   │   │   ├── common/
+│   │   │   │   ├── admin/
+│   │   │   │   │   ├── AdminDashboard.jsx
+│   │   │   │   │   ├── UserManagement.jsx
+│   │   │   │   │   ├── CourseApprovals.jsx
+│   │   │   │   │   ├── PaymentManagement.jsx
+│   │   │   │   │   └── AnalyticsOverview.jsx
+│   │   │   │   ├── instructor/
+│   │   │   │   │   ├── InstructorDashboard.jsx
+│   │   │   │   │   ├── CourseBuilder.jsx
+│   │   │   │   │   ├── StudentProgress.jsx
+│   │   │   │   │   └── AssignmentManager.jsx
+│   │   │   │   ├── student/
+│   │   │   │   │   ├── StudentDashboard.jsx
+│   │   │   │   │   ├── CourseCatalog.jsx
+│   │   │   │   │   ├── MyCourses.jsx
+│   │   │   │   │   ├── ProgressTracker.jsx
+│   │   │   │   │   └── Certificates.jsx
+│   │   │   │   └── developer/
+│   │   │   │       └── DeveloperDashboard.jsx
+│   │   │   ├── courses/
+│   │   │   │   ├── CourseCard.jsx
+│   │   │   │   ├── CourseGrid.jsx
+│   │   │   │   ├── CourseDetail.jsx
+│   │   │   │   ├── ModuleViewer.jsx
+│   │   │   │   ├── LessonPlayer.jsx
+│   │   │   │   ├── CourseEnrollment.jsx
+│   │   │   │   └── CourseProgress.jsx
+│   │   │   ├── payments/
+│   │   │   │   ├── PaymentForm.jsx
+│   │   │   │   ├── PaymentMethods.jsx
+│   │   │   │   ├── InvoiceGenerator.jsx
+│   │   │   │   ├── SubscriptionPlans.jsx
+│   │   │   │   └── PaymentHistory.jsx
+│   │   │   ├── approvals/
+│   │   │   │   ├── EnrollmentApprovals.jsx
+│   │   │   │   ├── CourseApprovalList.jsx
+│   │   │   │   ├── PaymentApprovals.jsx
+│   │   │   │   └── CertificateApprovals.jsx
 │   │   │   ├── ai/
-│   │   │   └── layout/
+│   │   │   │   ├── AIFloatingAssistant.jsx
+│   │   │   │   ├── AIStudyPlanner.jsx
+│   │   │   │   ├── AIContentGenerator.jsx
+│   │   │   │   ├── AIQuizGenerator.jsx
+│   │   │   │   └── AIPersonalizedLearning.jsx
+│   │   │   ├── layout/
+│   │   │   │   ├── TopNavbar.jsx
+│   │   │   │   ├── SideNavbar.jsx
+│   │   │   │   ├── Footer.jsx
+│   │   │   │   ├── Layout.jsx
+│   │   │   │   └── Breadcrumbs.jsx
+│   │   │   ├── common/
+│   │   │   │   ├── LoadingSpinner.jsx
+│   │   │   │   ├── ErrorBoundary.jsx
+│   │   │   │   ├── Modal.jsx
+│   │   │   │   ├── SearchBar.jsx
+│   │   │   │   ├── Pagination.jsx
+│   │   │   │   ├── FileUpload.jsx
+│   │   │   │   └── Notifications.jsx
+│   │   │   └── analytics/
+│   │   │       ├── ProgressCharts.jsx
+│   │   │       ├── PerformanceMetrics.jsx
+│   │   │       ├── CompletionRates.jsx
+│   │   │       └── LearningAnalytics.jsx
 │   │   ├── pages/
+│   │   │   ├── auth/
+│   │   │   │   ├── Login.jsx
+│   │   │   │   ├── Register.jsx
+│   │   │   │   └── ForgotPassword.jsx
+│   │   │   ├── dashboard/
+│   │   │   │   ├── AdminDashboard.jsx
+│   │   │   │   ├── InstructorDashboard.jsx
+│   │   │   │   ├── StudentDashboard.jsx
+│   │   │   │   └── DeveloperDashboard.jsx
+│   │   │   ├── courses/
+│   │   │   │   ├── CourseCatalog.jsx
+│   │   │   │   ├── CourseDetail.jsx
+│   │   │   │   ├── MyCourses.jsx
+│   │   │   │   ├── CoursePlayer.jsx
+│   │   │   │   └── CourseCompletion.jsx
+│   │   │   ├── payments/
+│   │   │   │   ├── Checkout.jsx
+│   │   │   │   ├── PaymentSuccess.jsx
+│   │   │   │   ├── PaymentFailed.jsx
+│   │   │   │   └── BillingHistory.jsx
+│   │   │   ├── profile/
+│   │   │   │   ├── UserProfile.jsx
+│   │   │   │   ├── Settings.jsx
+│   │   │   │   └── Certificates.jsx
+│   │   │   ├── admin/
+│   │   │   │   ├── UserManagement.jsx
+│   │   │   │   ├── CourseManagement.jsx
+│   │   │   │   ├── PaymentManagement.jsx
+│   │   │   │   └── SystemAnalytics.jsx
+│   │   │   └── public/
+│   │   │       ├── Home.jsx
+│   │   │       ├── Features.jsx
+│   │   │       ├── Pricing.jsx
+│   │   │       └── Help.jsx
 │   │   ├── hooks/
+│   │   │   ├── useAuth.js
+│   │   │   ├── useCourses.js
+│   │   │   ├── usePayments.js
+│   │   │   ├── useAnalytics.js
+│   │   │   ├── useAI.js
+│   │   │   ├── useWebRTC.js
+│   │   │   └── useLocalStorage.js
 │   │   ├── context/
+│   │   │   ├── AuthContext.js
+│   │   │   ├── CourseContext.js
+│   │   │   ├── PaymentContext.js
+│   │   │   ├── ThemeContext.js
+│   │   │   └── NotificationContext.js
 │   │   ├── utils/
+│   │   │   ├── api.js
+│   │   │   ├── constants.js
+│   │   │   ├── formatters.js
+│   │   │   ├── validators.js
+│   │   │   ├── paymentGateways.js
+│   │   │   └── aiHelpers.js
 │   │   ├── styles/
-│   │   └── assets/
+│   │   │   ├── index.css
+│   │   │   ├── components/
+│   │   │   └── pages/
+│   │   ├── assets/
+│   │   │   ├── images/
+│   │   │   ├── icons/
+│   │   │   └── fonts/
+│   │   └── data/
+│   │       ├── mockData.js
+│   │       └── constants.js
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── index.html
 ├── server/                 # Node.js Backend
 │   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   │   ├── courseController.js
+│   │   ├── paymentController.js
+│   │   ├── enrollmentController.js
+│   │   ├── approvalController.js
+│   │   ├── analyticsController.js
+│   │   ├── aiController.js
+│   │   ├── liveSessionController.js
+│   │   └── certificateController.js
 │   ├── models/
+│   │   ├── User.js
+│   │   ├── Course.js
+│   │   ├── Module.js
+│   │   ├── Lesson.js
+│   │   ├── Enrollment.js
+│   │   ├── Payment.js
+│   │   ├── Invoice.js
+│   │   ├── Certificate.js
+│   │   ├── Assignment.js
+│   │   ├── Submission.js
+│   │   ├── LiveSession.js
+│   │   ├── Analytics.js
+│   │   └── ApprovalRequest.js
 │   ├── routes/
+│   │   ├── auth.js
+│   │   ├── users.js
+│   │   ├── courses.js
+│   │   ├── payments.js
+│   │   ├── enrollments.js
+│   │   ├── approvals.js
+│   │   ├── analytics.js
+│   │   ├── ai.js
+│   │   ├── live-sessions.js
+│   │   └── certificates.js
 │   ├── middleware/
+│   │   ├── auth.js
+│   │   ├── validation.js
+│   │   ├── upload.js
+│   │   ├── rateLimit.js
+│   │   ├── errorHandler.js
+│   │   └── roleCheck.js
 │   ├── services/
+│   │   ├── authService.js
+│   │   ├── emailService.js
+│   │   ├── paymentService.js
+│   │   ├── aiService.js
+│   │   ├── analyticsService.js
+│   │   ├── certificateService.js
+│   │   ├── liveSessionService.js
+│   │   └── fileService.js
 │   ├── utils/
-│   └── config/
+│   │   ├── database.js
+│   │   ├── helpers.js
+│   │   ├── paymentGateways/
+│   │   │   ├── stripe.js
+│   │   │   ├── paypal.js
+│   │   │   └── razorpay.js
+│   │   ├── validators.js
+│   │   ├── generators.js
+│   │   └── constants.js
+│   ├── config/
+│   │   ├── database.js
+│   │   ├── cloudinary.js
+│   │   ├── email.js
+│   │   ├── payment.js
+│   │   └── ai.js
+│   ├── public/
+│   │   └── uploads/
+│   ├── tests/
+│   ├── package.json
+│   └── server.js
 ├── shared/                 # Shared utilities
+│   ├── constants/
+│   │   ├── userRoles.js
+│   │   ├── courseStatus.js
+│   │   ├── paymentStatus.js
+│   │   ├── approvalStatus.js
+│   │   └── errorCodes.js
+│   ├── schemas/
+│   │   ├── userSchema.js
+│   │   ├── courseSchema.js
+│   │   ├── paymentSchema.js
+│   │   └── validationSchema.js
+│   └── utils/
+│       ├── dateFormatters.js
+│       ├── currencyFormatters.js
+│       └── commonValidators.js
 └── docs/                  # Documentation
-```
+    ├── api/
+    ├── setup/
+    ├── deployment/
+    └── features/
 
 ## Technology Stack
 
@@ -68,6 +285,68 @@ lms-ai-platform/
 - **LangChain** for AI workflows
 - **Vector Databases** for embeddings
 - **WebRTC** for live sessions
+
+Key New Features Added:
+1. Course Management
+Course catalog with filtering
+
+Module and lesson structure
+
+Year-based course organization
+
+Completion tracking
+
+2. Payment System
+Multiple payment gateways (Stripe, PayPal, Razorpay)
+
+Fee management
+
+Invoice generation
+
+Subscription plans
+
+Payment history
+
+3. Approval Workflows
+Course enrollment approvals
+
+Payment approvals
+
+Certificate approvals
+
+Admin approval dashboard
+
+4. Enhanced Analytics
+Progress tracking
+
+Completion rates
+
+Performance metrics
+
+Learning analytics
+
+5. AI Features
+Floating AI assistant
+
+AI study planner
+
+Content generation
+
+Personalized learning paths
+
+6. Live Sessions
+WebRTC integration
+
+Virtual classrooms
+
+Live demos and meetings
+
+7. Certificate System
+Certificate generation
+
+Verification system
+
+Digital certificates
 
 ## System Architecture
 
@@ -119,7 +398,72 @@ const userSchema = new mongoose.Schema({
     notifications: { type: Boolean, default: true }
   }
 }, { timestamps: true });
-```
+
+// server/models/Course.js
+const courseSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: String,
+  instructor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  category: String,
+  level: { type: String, enum: ['beginner', 'intermediate', 'advanced'] },
+  year: Number,
+  price: { type: Number, default: 0 },
+  currency: { type: String, default: 'USD' },
+  duration: Number, // in hours
+  modules: [{
+    title: String,
+    description: String,
+    order: Number,
+    lessons: [{
+      title: String,
+      content: String,
+      videoUrl: String,
+      duration: Number,
+      resources: [{
+        title: String,
+        url: String,
+        type: String
+      }],
+      order: Number,
+      isFree: { type: Boolean, default: false }
+    }]
+  }],
+  status: { 
+    type: String, 
+    enum: ['draft', 'pending', 'approved', 'rejected'],
+    default: 'draft'
+  },
+  requirements: [String],
+  learningOutcomes: [String],
+  thumbnail: String,
+  isFeatured: { type: Boolean, default: false },
+  enrollmentCount: { type: Number, default: 0 }
+}, { timestamps: true });
+
+// server/models/Payment.js
+const paymentSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+  amount: { type: Number, required: true },
+  currency: { type: String, default: 'USD' },
+  paymentMethod: { 
+    type: String, 
+    enum: ['stripe', 'paypal', 'razorpay', 'bank_transfer'],
+    required: true 
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'completed', 'failed', 'refunded'],
+    default: 'pending'
+  },
+  gatewayResponse: Object,
+  invoiceNumber: String,
+  approvalStatus: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
+  }
+}, { timestamps: true });
 
 ### Components
 ```jsx
