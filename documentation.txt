@@ -1,1196 +1,1906 @@
-# BUILDING AI-Powered LMS - Technical Documentation
+🎓 AI-Powered Learning Management System (LMS) - Complete Documentation
+📋 Executive Summary
+AI-Powered LMS is an enterprise-grade, comprehensive learning management ecosystem that integrates cutting-edge artificial intelligence, real-time collaboration, social learning, and advanced analytics. This platform provides a complete digital learning experience with features including virtual classrooms, integrated development environments, digital libraries, social networking, intelligent tutoring, and automated assessment systems.
 
-## Table of Contents
-1. [Project Structure](#project-structure)
-2. [Technology Stack](#technology-stack)
-3. [System Architecture](#system-architecture)
-4. [Core Features Implementation](#core-features-implementation)
-5. [AI Integration](#ai-integration)
-6. [Database Design](#database-design)
-7. [API Endpoints](#api-endpoints)
-8. [Real-time Features](#real-time-features)
-9. [Deployment & PWA](#deployment--pwa)
-
-## Project Structure
-
-```
-lms-ai-platform/
-├── client/                 # React Vite Frontend
+🏗️ Enhanced Project Structure
+ai-powered-lms/
+├── 📁 lms-frontend/                        # React.js Frontend Application
 │   ├── public/
-│   │   ├── icons/
-│   │   ├── images/
-│   │   └── manifest.json
+│   │   ├── assets/
+│   │   │   ├── images/                    # Logo, icons, illustrations
+│   │   │   ├── videos/                    # Onboarding videos
+│   │   │   ├── fonts/                     # Custom fonts
+│   │   │   └── animations/                # Lottie animations
+│   │   ├── splash/                        # Splash screen assets
+│   │   ├── manifest.json                  # PWA manifest
+│   │   ├── robots.txt
+│   │   └── favicon.ico
+│   │
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── auth/
-│   │   │   │   ├── LoginForm.jsx
-│   │   │   │   ├── RegisterForm.jsx
-│   │   │   │   ├── ForgotPassword.jsx
-│   │   │   │   └── AuthGuard.jsx
-│   │   │   ├── dashboard/
-│   │   │   │   ├── admin/
-│   │   │   │   │   ├── AdminDashboard.jsx
-│   │   │   │   │   ├── UserManagement.jsx
-│   │   │   │   │   ├── CourseApprovals.jsx
-│   │   │   │   │   ├── PaymentManagement.jsx
-│   │   │   │   │   └── AnalyticsOverview.jsx
-│   │   │   │   ├── instructor/
-│   │   │   │   │   ├── InstructorDashboard.jsx
-│   │   │   │   │   ├── CourseBuilder.jsx
-│   │   │   │   │   ├── StudentProgress.jsx
-│   │   │   │   │   └── AssignmentManager.jsx
-│   │   │   │   ├── student/
-│   │   │   │   │   ├── StudentDashboard.jsx
-│   │   │   │   │   ├── CourseCatalog.jsx
-│   │   │   │   │   ├── MyCourses.jsx
-│   │   │   │   │   ├── ProgressTracker.jsx
-│   │   │   │   │   └── Certificates.jsx
-│   │   │   │   └── developer/
-│   │   │   │       └── DeveloperDashboard.jsx
-│   │   │   ├── courses/
-│   │   │   │   ├── CourseCard.jsx
-│   │   │   │   ├── CourseGrid.jsx
-│   │   │   │   ├── CourseDetail.jsx
-│   │   │   │   ├── ModuleViewer.jsx
-│   │   │   │   ├── LessonPlayer.jsx
-│   │   │   │   ├── CourseEnrollment.jsx
-│   │   │   │   └── CourseProgress.jsx
-│   │   │   ├── payments/
-│   │   │   │   ├── PaymentForm.jsx
-│   │   │   │   ├── PaymentMethods.jsx
-│   │   │   │   ├── InvoiceGenerator.jsx
-│   │   │   │   ├── SubscriptionPlans.jsx
-│   │   │   │   └── PaymentHistory.jsx
-│   │   │   ├── approvals/
-│   │   │   │   ├── EnrollmentApprovals.jsx
-│   │   │   │   ├── CourseApprovalList.jsx
-│   │   │   │   ├── PaymentApprovals.jsx
-│   │   │   │   └── CertificateApprovals.jsx
-│   │   │   ├── ai/
-│   │   │   │   ├── AIFloatingAssistant.jsx
-│   │   │   │   ├── AIStudyPlanner.jsx
-│   │   │   │   ├── AIContentGenerator.jsx
-│   │   │   │   ├── AIQuizGenerator.jsx
-│   │   │   │   └── AIPersonalizedLearning.jsx
-│   │   │   ├── layout/
-│   │   │   │   ├── TopNavbar.jsx
-│   │   │   │   ├── SideNavbar.jsx
-│   │   │   │   ├── Footer.jsx
-│   │   │   │   ├── Layout.jsx
-│   │   │   │   └── Breadcrumbs.jsx
-│   │   │   ├── common/
-│   │   │   │   ├── LoadingSpinner.jsx
-│   │   │   │   ├── ErrorBoundary.jsx
-│   │   │   │   ├── Modal.jsx
-│   │   │   │   ├── SearchBar.jsx
-│   │   │   │   ├── Pagination.jsx
-│   │   │   │   ├── FileUpload.jsx
-│   │   │   │   └── Notifications.jsx
-│   │   │   └── analytics/
-│   │   │       ├── ProgressCharts.jsx
-│   │   │       ├── PerformanceMetrics.jsx
-│   │   │       ├── CompletionRates.jsx
-│   │   │       └── LearningAnalytics.jsx
+│   │   │   ├── common/                   # Shared UI Components
+│   │   │   │   ├── Button/
+│   │   │   │   ├── Input/
+│   │   │   │   ├── Modal/
+│   │   │   │   ├── Dropdown/
+│   │   │   │   ├── Toast/
+│   │   │   │   ├── Avatar/
+│   │   │   │   ├── Badge/
+│   │   │   │   ├── Card/
+│   │   │   │   ├── Loader/
+│   │   │   │   ├── ProgressBar/
+│   │   │   │   ├── Tabs/
+│   │   │   │   ├── Accordion/
+│   │   │   │   ├── Carousel/
+│   │   │   │   └── DataTable/
+│   │   │   │
+│   │   │   ├── layout/                   # Layout Components
+│   │   │   │   ├── Header/
+│   │   │   │   ├── Sidebar/
+│   │   │   │   ├── Footer/
+│   │   │   │   ├── Navbar/
+│   │   │   │   ├── Breadcrumb/
+│   │   │   │   └── PageWrapper/
+│   │   │   │
+│   │   │   ├── auth/                     # Authentication Components
+│   │   │   │   ├── Login/
+│   │   │   │   ├── Register/
+│   │   │   │   ├── ForgotPassword/
+│   │   │   │   ├── ResetPassword/
+│   │   │   │   ├── TwoFactorAuth/
+│   │   │   │   ├── SocialLogin/
+│   │   │   │   └── EmailVerification/
+│   │   │   │
+│   │   │   ├── dashboard/                # Dashboard Components
+│   │   │   │   ├── StudentDashboard/
+│   │   │   │   ├── InstructorDashboard/
+│   │   │   │   ├── AdminDashboard/
+│   │   │   │   ├── AnalyticsWidget/
+│   │   │   │   ├── ActivityFeed/
+│   │   │   │   ├── UpcomingEvents/
+│   │   │   │   ├── ProgressOverview/
+│   │   │   │   └── QuickActions/
+│   │   │   │
+│   │   │   ├── courses/                  # Course Components
+│   │   │   │   ├── CourseCard/
+│   │   │   │   ├── CourseGrid/
+│   │   │   │   ├── CourseDetail/
+│   │   │   │   ├── CoursePlayer/
+│   │   │   │   ├── CourseBuilder/
+│   │   │   │   ├── LessonEditor/
+│   │   │   │   ├── ModuleManager/
+│   │   │   │   ├── CourseCurriculum/
+│   │   │   │   ├── CourseReviews/
+│   │   │   │   ├── CourseEnrollment/
+│   │   │   │   └── CourseProgress/
+│   │   │   │
+│   │   │   ├── assessments/              # Assessment Components
+│   │   │   │   ├── QuizBuilder/
+│   │   │   │   ├── QuizPlayer/
+│   │   │   │   ├── ExamInterface/
+│   │   │   │   ├── QuestionBank/
+│   │   │   │   ├── AssignmentSubmission/
+│   │   │   │   ├── GradingInterface/
+│   │   │   │   ├── AutoGrader/
+│   │   │   │   ├── PeerReview/
+│   │   │   │   ├── ProctorView/
+│   │   │   │   └── ResultsAnalysis/
+│   │   │   │
+│   │   │   ├── webinars/                 # Webinar Components
+│   │   │   │   ├── WebinarLobby/
+│   │   │   │   ├── WebinarRoom/
+│   │   │   │   ├── WebinarControls/
+│   │   │   │   ├── WebinarChat/
+│   │   │   │   ├── WebinarPolls/
+│   │   │   │   ├── WebinarRecordings/
+│   │   │   │   ├── ScreenShare/
+│   │   │   │   ├── Whiteboard/
+│   │   │   │   └── BreakoutRooms/
+│   │   │   │
+│   │   │   ├── meetings/                 # Meeting Components
+│   │   │   │   ├── MeetingScheduler/
+│   │   │   │   ├── MeetingRoom/
+│   │   │   │   ├── VideoGrid/
+│   │   │   │   ├── MeetingCalendar/
+│   │   │   │   ├── MeetingNotes/
+│   │   │   │   ├── RecordingManager/
+│   │   │   │   └── AttendanceTracker/
+│   │   │   │
+│   │   │   ├── messaging/                # Messaging Components
+│   │   │   │   ├── ChatWindow/
+│   │   │   │   ├── ChatList/
+│   │   │   │   ├── MessageInput/
+│   │   │   │   ├── MessageBubble/
+│   │   │   │   ├── GroupChat/
+│   │   │   │   ├── DirectMessage/
+│   │   │   │   ├── FileSharing/
+│   │   │   │   ├── VoiceMessage/
+│   │   │   │   ├── MessageReactions/
+│   │   │   │   └── TypingIndicator/
+│   │   │   │
+│   │   │   ├── forums/                   # Forum Components
+│   │   │   │   ├── ForumList/
+│   │   │   │   ├── ForumThread/
+│   │   │   │   ├── ThreadPost/
+│   │   │   │   ├── PostEditor/
+│   │   │   │   ├── ForumSearch/
+│   │   │   │   ├── ForumCategories/
+│   │   │   │   ├── ForumModerator/
+│   │   │   │   ├── BestAnswer/
+│   │   │   │   └── ForumNotifications/
+│   │   │   │
+│   │   │   ├── social/                   # Social Components
+│   │   │   │   ├── NewsFeed/
+│   │   │   │   ├── PostCreator/
+│   │   │   │   ├── PostCard/
+│   │   │   │   ├── CommentSection/
+│   │   │   │   ├── LikeButton/
+│   │   │   │   ├── ShareButton/
+│   │   │   │   ├── UserProfile/
+│   │   │   │   ├── FollowButton/
+│   │   │   │   ├── FriendsList/
+│   │   │   │   ├── NotificationCenter/
+│   │   │   │   ├── ActivityTimeline/
+│   │   │   │   └── SocialAnalytics/
+│   │   │   │
+│   │   │   ├── library/                  # Digital Library Components
+│   │   │   │   ├── LibraryBrowser/
+│   │   │   │   ├── BookShelf/
+│   │   │   │   ├── ResourceCard/
+│   │   │   │   ├── EbookReader/
+│   │   │   │   ├── PDFViewer/
+│   │   │   │   ├── VideoPlayer/
+│   │   │   │   ├── AudioPlayer/
+│   │   │   │   ├── ResourceSearch/
+│   │   │   │   ├── AdvancedFilter/
+│   │   │   │   ├── BookmarksManager/
+│   │   │   │   ├── AnnotationTools/
+│   │   │   │   └── LibraryHistory/
+│   │   │   │
+│   │   │   ├── ide/                      # Integrated Development Environment
+│   │   │   │   ├── CodeEditor/
+│   │   │   │   ├── CodeRunner/
+│   │   │   │   ├── Terminal/
+│   │   │   │   ├── FileExplorer/
+│   │   │   │   ├── DebugConsole/
+│   │   │   │   ├── CollaborativeCode/
+│   │   │   │   ├── CodeReview/
+│   │   │   │   ├── VersionControl/
+│   │   │   │   ├── LanguageSupport/
+│   │   │   │   └── AICodeAssistant/
+│   │   │   │
+│   │   │   ├── ai/                       # AI Components
+│   │   │   │   ├── AIChatbot/
+│   │   │   │   ├── AITutor/
+│   │   │   │   ├── SmartRecommendations/
+│   │   │   │   ├── ContentGenerator/
+│   │   │   │   ├── AIProctor/
+│   │   │   │   ├── SentimentAnalysis/
+│   │   │   │   ├── PersonalizedLearning/
+│   │   │   │   ├── PredictiveAnalytics/
+│   │   │   │   ├── VoiceAssistant/
+│   │   │   │   └── AIInsights/
+│   │   │   │
+│   │   │   ├── profiles/                 # Profile Components
+│   │   │   │   ├── StudentProfile/
+│   │   │   │   ├── InstructorProfile/
+│   │   │   │   ├── AdminProfile/
+│   │   │   │   ├── ProfileEditor/
+│   │   │   │   ├── SkillsMatrix/
+│   │   │   │   ├── Achievements/
+│   │   │   │   ├── Certificates/
+│   │   │   │   ├── LearningPath/
+│   │   │   │   ├── PortfolioShowcase/
+│   │   │   │   └── ProfileAnalytics/
+│   │   │   │
+│   │   │   ├── analytics/                # Analytics Components
+│   │   │   │   ├── DashboardCharts/
+│   │   │   │   ├── PerformanceMetrics/
+│   │   │   │   ├── EngagementAnalytics/
+│   │   │   │   ├── LearningAnalytics/
+│   │   │   │   ├── RevenueReports/
+│   │   │   │   ├── UserBehavior/
+│   │   │   │   ├── CourseAnalytics/
+│   │   │   │   ├── ExportReports/
+│   │   │   │   └── RealTimeMonitor/
+│   │   │   │
+│   │   │   ├── gamification/             # Gamification Components
+│   │   │   │   ├── PointsSystem/
+│   │   │   │   ├── Badges/
+│   │   │   │   ├── Leaderboard/
+│   │   │   │   ├── Achievements/
+│   │   │   │   ├── Challenges/
+│   │   │   │   ├── Rewards/
+│   │   │   │   ├── ProgressRings/
+│   │   │   │   └── Streaks/
+│   │   │   │
+│   │   │   ├── notifications/            # Notification Components
+│   │   │   │   ├── NotificationBell/
+│   │   │   │   ├── NotificationList/
+│   │   │   │   ├── PushNotifications/
+│   │   │   │   ├── EmailDigest/
+│   │   │   │   └── NotificationSettings/
+│   │   │   │
+│   │   │   └── admin/                    # Admin Components
+│   │   │       ├── UserManagement/
+│   │   │       ├── RoleManager/
+│   │   │       ├── SystemSettings/
+│   │   │       ├── ContentModeration/
+│   │   │       ├── BillingManagement/
+│   │   │       ├── AuditLogs/
+│   │   │       ├── BackupRestore/
+│   │   │       └── SystemMonitor/
+│   │   │
 │   │   ├── pages/
-│   │   │   ├── auth/
-│   │   │   │   ├── Login.jsx
-│   │   │   │   ├── Register.jsx
-│   │   │   │   └── ForgotPassword.jsx
-│   │   │   ├── dashboard/
-│   │   │   │   ├── AdminDashboard.jsx
-│   │   │   │   ├── InstructorDashboard.jsx
-│   │   │   │   ├── StudentDashboard.jsx
-│   │   │   │   └── DeveloperDashboard.jsx
-│   │   │   ├── courses/
-│   │   │   │   ├── CourseCatalog.jsx
-│   │   │   │   ├── CourseDetail.jsx
-│   │   │   │   ├── MyCourses.jsx
-│   │   │   │   ├── CoursePlayer.jsx
-│   │   │   │   └── CourseCompletion.jsx
-│   │   │   ├── payments/
-│   │   │   │   ├── Checkout.jsx
-│   │   │   │   ├── PaymentSuccess.jsx
-│   │   │   │   ├── PaymentFailed.jsx
-│   │   │   │   └── BillingHistory.jsx
-│   │   │   ├── profile/
-│   │   │   │   ├── UserProfile.jsx
-│   │   │   │   ├── Settings.jsx
-│   │   │   │   └── Certificates.jsx
-│   │   │   ├── admin/
-│   │   │   │   ├── UserManagement.jsx
-│   │   │   │   ├── CourseManagement.jsx
-│   │   │   │   ├── PaymentManagement.jsx
-│   │   │   │   └── SystemAnalytics.jsx
-│   │   │   └── public/
-│   │   │       ├── Home.jsx
-│   │   │       ├── Features.jsx
-│   │   │       ├── Pricing.jsx
-│   │   │       └── Help.jsx
-│   │   ├── hooks/
+│   │   │   ├── Landing/                  # Landing Page
+│   │   │   ├── Home/                     # Home Page
+│   │   │   ├── Dashboard/                # Main Dashboard
+│   │   │   ├── Courses/                  # Course Pages
+│   │   │   │   ├── CourseCatalog/
+│   │   │   │   ├── CourseDetail/
+│   │   │   │   ├── CoursePlayer/
+│   │   │   │   └── MyCourses/
+│   │   │   ├── Assessments/              # Assessment Pages
+│   │   │   │   ├── QuizList/
+│   │   │   │   ├── ExamPortal/
+│   │   │   │   ├── Assignments/
+│   │   │   │   └── Results/
+│   │   │   ├── Library/                  # Library Pages
+│   │   │   ├── Webinars/                 # Webinar Pages
+│   │   │   ├── Meetings/                 # Meeting Pages
+│   │   │   ├── Messages/                 # Messaging Pages
+│   │   │   ├── Forums/                   # Forum Pages
+│   │   │   ├── Social/                   # Social Feed Pages
+│   │   │   ├── IDE/                      # Coding Environment
+│   │   │   ├── Profile/                  # Profile Pages
+│   │   │   ├── Analytics/                # Analytics Pages
+│   │   │   ├── Admin/                    # Admin Pages
+│   │   │   ├── Settings/                 # Settings Pages
+│   │   │   ├── Help/                     # Help & Support
+│   │   │   └── Error/                    # Error Pages (404, 500)
+│   │   │
+│   │   ├── hooks/                        # Custom React Hooks
 │   │   │   ├── useAuth.js
-│   │   │   ├── useCourses.js
-│   │   │   ├── usePayments.js
-│   │   │   ├── useAnalytics.js
-│   │   │   ├── useAI.js
 │   │   │   ├── useWebRTC.js
-│   │   │   └── useLocalStorage.js
-│   │   ├── context/
-│   │   │   ├── AuthContext.js
-│   │   │   ├── CourseContext.js
-│   │   │   ├── PaymentContext.js
-│   │   │   ├── ThemeContext.js
-│   │   │   └── NotificationContext.js
-│   │   ├── utils/
-│   │   │   ├── api.js
+│   │   │   ├── useSocket.js
+│   │   │   ├── useNotifications.js
+│   │   │   ├── useChat.js
+│   │   │   ├── useAI.js
+│   │   │   ├── useAnalytics.js
+│   │   │   ├── useMediaStream.js
+│   │   │   ├── useGeolocation.js
+│   │   │   └── useTheme.js
+│   │   │
+│   │   ├── contexts/                     # React Contexts
+│   │   │   ├── AuthContext.jsx
+│   │   │   ├── ThemeContext.jsx
+│   │   │   ├── SocketContext.jsx
+│   │   │   ├── NotificationContext.jsx
+│   │   │   ├── ChatContext.jsx
+│   │   │   ├── WebRTCContext.jsx
+│   │   │   ├── AIContext.jsx
+│   │   │   └── LanguageContext.jsx
+│   │   │
+│   │   ├── services/                     # API & Services
+│   │   │   ├── api/
+│   │   │   │   ├── authAPI.js
+│   │   │   │   ├── courseAPI.js
+│   │   │   │   ├── userAPI.js
+│   │   │   │   ├── assessmentAPI.js
+│   │   │   │   ├── libraryAPI.js
+│   │   │   │   ├── webinarAPI.js
+│   │   │   │   ├── messagingAPI.js
+│   │   │   │   ├── forumAPI.js
+│   │   │   │   ├── socialAPI.js
+│   │   │   │   ├── analyticsAPI.js
+│   │   │   │   └── adminAPI.js
+│   │   │   ├── socket/
+│   │   │   │   ├── socketService.js
+│   │   │   │   ├── chatSocket.js
+│   │   │   │   ├── notificationSocket.js
+│   │   │   │   └── liveClassSocket.js
+│   │   │   ├── webrtc/
+│   │   │   │   ├── peerConnection.js
+│   │   │   │   ├── mediaStream.js
+│   │   │   │   └── screenShare.js
+│   │   │   ├── ai/
+│   │   │   │   ├── chatbotService.js
+│   │   │   │   ├── recommendationService.js
+│   │   │   │   └── analyticsService.js
+│   │   │   └── storage/
+│   │   │       ├── localStorage.js
+│   │   │       ├── sessionStorage.js
+│   │   │       └── indexedDB.js
+│   │   │
+│   │   ├── utils/                        # Utility Functions
+│   │   │   ├── validation.js
+│   │   │   ├── formatting.js
+│   │   │   ├── dateTime.js
+│   │   │   ├── encryption.js
+│   │   │   ├── fileUpload.js
+│   │   │   ├── errorHandler.js
 │   │   │   ├── constants.js
-│   │   │   ├── formatters.js
-│   │   │   ├── validators.js
-│   │   │   ├── paymentGateways.js
-│   │   │   └── aiHelpers.js
-│   │   ├── styles/
-│   │   │   ├── index.css
-│   │   │   ├── components/
-│   │   │   └── pages/
-│   │   ├── assets/
-│   │   │   ├── images/
+│   │   │   └── helpers.js
+│   │   │
+│   │   ├── styles/                       # Styling
+│   │   │   ├── global.css
+│   │   │   ├── variables.css
+│   │   │   ├── themes/
+│   │   │   │   ├── light.css
+│   │   │   │   ├── dark.css
+│   │   │   │   └── highContrast.css
+│   │   │   └── animations/
+│   │   │       ├── transitions.css
+│   │   │       └── keyframes.css
+│   │   │
+│   │   ├── assets/                       # Static Assets
 │   │   │   ├── icons/
-│   │   │   └── fonts/
-│   │   └── data/
-│   │       ├── mockData.js
-│   │       └── constants.js
+│   │   │   ├── images/
+│   │   │   ├── animations/
+│   │   │   └── sounds/
+│   │   │
+│   │   ├── config/                       # Configuration
+│   │   │   ├── api.config.js
+│   │   │   ├── socket.config.js
+│   │   │   ├── webrtc.config.js
+│   │   │   └── app.config.js
+│   │   │
+│   │   ├── App.jsx                       # Root Component
+│   │   ├── main.jsx                      # Entry Point
+│   │   └── routes.jsx                    # Route Configuration
+│   │
+│   ├── .env.development
+│   ├── .env.production
 │   ├── package.json
 │   ├── vite.config.js
 │   ├── tailwind.config.js
 │   ├── postcss.config.js
-│   └── index.html
-├── server/                 # Node.js Backend
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   ├── userController.js
-│   │   ├── courseController.js
-│   │   ├── paymentController.js
-│   │   ├── enrollmentController.js
-│   │   ├── approvalController.js
-│   │   ├── analyticsController.js
-│   │   ├── aiController.js
-│   │   ├── liveSessionController.js
-│   │   └── certificateController.js
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Course.js
-│   │   ├── Module.js
-│   │   ├── Lesson.js
-│   │   ├── Enrollment.js
-│   │   ├── Payment.js
-│   │   ├── Invoice.js
-│   │   ├── Certificate.js
-│   │   ├── Assignment.js
-│   │   ├── Submission.js
-│   │   ├── LiveSession.js
-│   │   ├── Analytics.js
-│   │   └── ApprovalRequest.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   ├── users.js
-│   │   ├── courses.js
-│   │   ├── payments.js
-│   │   ├── enrollments.js
-│   │   ├── approvals.js
-│   │   ├── analytics.js
-│   │   ├── ai.js
-│   │   ├── live-sessions.js
-│   │   └── certificates.js
-│   ├── middleware/
-│   │   ├── auth.js
-│   │   ├── validation.js
-│   │   ├── upload.js
-│   │   ├── rateLimit.js
-│   │   ├── errorHandler.js
-│   │   └── roleCheck.js
-│   ├── services/
-│   │   ├── authService.js
-│   │   ├── emailService.js
-│   │   ├── paymentService.js
-│   │   ├── aiService.js
-│   │   ├── analyticsService.js
-│   │   ├── certificateService.js
-│   │   ├── liveSessionService.js
-│   │   └── fileService.js
-│   ├── utils/
-│   │   ├── database.js
-│   │   ├── helpers.js
-│   │   ├── paymentGateways/
-│   │   │   ├── stripe.js
-│   │   │   ├── paypal.js
-│   │   │   └── razorpay.js
-│   │   ├── validators.js
-│   │   ├── generators.js
-│   │   └── constants.js
-│   ├── config/
-│   │   ├── database.js
-│   │   ├── cloudinary.js
-│   │   ├── email.js
-│   │   ├── payment.js
-│   │   └── ai.js
-│   ├── public/
-│   │   └── uploads/
+│   └── tsconfig.json
+│
+├── 📁 lms-backend/                       # Node.js Backend Application
+│   ├── src/
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.js
+│   │   │   ├── user.controller.js
+│   │   │   ├── course.controller.js
+│   │   │   ├── assessment.controller.js
+│   │   │   ├── webinar.controller.js
+│   │   │   ├── library.controller.js
+│   │   │   ├── messaging.controller.js
+│   │   │   ├── forum.controller.js
+│   │   │   ├── social.controller.js
+│   │   │   ├── meeting.controller.js
+│   │   │   ├── ide.controller.js
+│   │   │   ├── ai.controller.js
+│   │   │   ├── analytics.controller.js
+│   │   │   ├── notification.controller.js
+│   │   │   ├── gamification.controller.js
+│   │   │   └── admin.controller.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── User.model.js
+│   │   │   ├── Student.model.js
+│   │   │   ├── Instructor.model.js
+│   │   │   ├── Admin.model.js
+│   │   │   ├── Course.model.js
+│   │   │   ├── Lesson.model.js
+│   │   │   ├── Module.model.js
+│   │   │   ├── Enrollment.model.js
+│   │   │   ├── Assessment.model.js
+│   │   │   ├── Quiz.model.js
+│   │   │   ├── Exam.model.js
+│   │   │   ├── Assignment.model.js
+│   │   │   ├── Submission.model.js
+│   │   │   ├── Grade.model.js
+│   │   │   ├── Webinar.model.js
+│   │   │   ├── Meeting.model.js
+│   │   │   ├── LibraryResource.model.js
+│   │   │   ├── Message.model.js
+│   │   │   ├── Conversation.model.js
+│   │   │   ├── Forum.model.js
+│   │   │   ├── ForumThread.model.js
+│   │   │   ├── ForumPost.model.js
+│   │   │   ├── SocialPost.model.js
+│   │   │   ├── Comment.model.js
+│   │   │   ├── Like.model.js
+│   │   │   ├── Follow.model.js
+│   │   │   ├── Notification.model.js
+│   │   │   ├── Achievement.model.js
+│   │   │   ├── Badge.model.js
+│   │   │   ├── Certificate.model.js
+│   │   │   ├── Analytics.model.js
+│   │   │   ├── AuditLog.model.js
+│   │   │   └── Setting.model.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── auth.routes.js
+│   │   │   ├── user.routes.js
+│   │   │   ├── course.routes.js
+│   │   │   ├── assessment.routes.js
+│   │   │   ├── webinar.routes.js
+│   │   │   ├── library.routes.js
+│   │   │   ├── messaging.routes.js
+│   │   │   ├── forum.routes.js
+│   │   │   ├── social.routes.js
+│   │   │   ├── meeting.routes.js
+│   │   │   ├── ide.routes.js
+│   │   │   ├── ai.routes.js
+│   │   │   ├── analytics.routes.js
+│   │   │   ├── notification.routes.js
+│   │   │   ├── gamification.routes.js
+│   │   │   └── admin.routes.js
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── auth.middleware.js
+│   │   │   ├── rbac.middleware.js
+│   │   │   ├── validation.middleware.js
+│   │   │   ├── rateLimit.middleware.js
+│   │   │   ├── upload.middleware.js
+│   │   │   ├── error.middleware.js
+│   │   │   ├── logging.middleware.js
+│   │   │   ├── cache.middleware.js
+│   │   │   ├── cors.middleware.js
+│   │   │   ├── security.middleware.js
+│   │   │   └── aiLimit.middleware.js
+│   │   │
+│   │   ├── services/
+│   │   │   ├── email/
+│   │   │   │   ├── emailService.js
+│   │   │   │   ├── templates/
+│   │   │   │   └── emailQueue.js
+│   │   │   ├── sms/
+│   │   │   │   └── smsService.js
+│   │   │   ├── storage/
+│   │   │   │   ├── s3Service.js
+│   │   │   │   ├── cloudinaryService.js
+│   │   │   │   └── localStorageService.js
+│   │   │   ├── payment/
+│   │   │   │   ├── stripeService.js
+│   │   │   │   ├── paypalService.js
+│   │   │   │   └── razorpayService.js
+│   │   │   ├── notification/
+│   │   │   │   ├── pushService.js
+│   │   │   │   ├── fcmService.js
+│   │   │   │   └── webPushService.js
+│   │   │   ├── video/
+│   │   │   │   ├── videoProcessing.js
+│   │   │   │   ├── transcoding.js
+│   │   │   │   └── streamingService.js
+│   │   │   ├── cache/
+│   │   │   │   └── redisService.js
+│   │   │   └── queue/
+│   │   │       └── bullQueue.js
+│   │   │
+│   │   ├── ai/                           # AI Services
+│   │   │   ├── nlp/
+│   │   │   │   ├── textAnalysis.js
+│   │   │   │   ├── sentimentAnalysis.js
+│   │   │   │   ├── entityExtraction.js
+│   │   │   │   ├── languageDetection.js
+│   │   │   │   └── summarization.js
+│   │   │   ├── ml/
+│   │   │   │   ├── recommendationEngine.js
+│   │   │   │   ├── contentFiltering.js
+│   │   │   │   ├── collaborativeFiltering.js
+│   │   │   │   ├── predictiveAnalytics.js
+│   │   │   │   └── anomalyDetection.js
+│   │   │   ├── cv/
+│   │   │   │   ├── faceDetection.js
+│   │   │   │   ├── objectDetection.js
+│   │   │   │   ├── imageClassification.js
+│   │   │   │   └── proctoring.js
+│   │   │   ├── chatbot/
+│   │   │   │   ├── intentClassification.js
+│   │   │   │   ├── dialogManagement.js
+│   │   │   │   ├── responseGeneration.js
+│   │   │   │   └── contextManager.js
+│   │   │   ├── content/
+│   │   │   │   ├── questionGenerator.js
+│   │   │   │   ├── summaryGenerator.js
+│   │   │   │   ├── feedbackGenerator.js
+│   │   │   │   └── contentEnhancer.js
+│   │   │   ├── grading/
+│   │   │   │   ├── autoGrader.js
+│   │   │   │   ├── essayScoring.js
+│   │   │   │   ├── codeEvaluation.js
+│   │   │   │   └── plagiarismDetection.js
+│   │   │   └── personalization/
+│   │   │       ├── learningPathOptimizer.js
+│   │   │       ├── adaptiveLearning.js
+│   │   │       └── skillGapAnalysis.js
+│   │   │
+│   │   ├── sockets/                      # WebSocket Handlers
+│   │   │   ├── chatSocket.js
+│   │   │   ├── notificationSocket.js
+│   │   │   ├── webinarSocket.js
+│   │   │   ├── meetingSocket.js
+│   │   │   ├── collaborationSocket.js
+│   │   │   └── liveUpdateSocket.js
+│   │   │
+│   │   ├── jobs/                         # Background Jobs
+│   │   │   ├── emailJobs.js
+│   │   │   ├── reportJobs.js
+│   │   │   ├── analyticsJobs.js
+│   │   │   ├── cleanupJobs.js
+│   │   │   └── aiTrainingJobs.js
+│   │   │
+│   │   ├── validators/                   # Input Validators
+│   │   │   ├── authValidator.js
+│   │   │   ├── userValidator.js
+│   │   │   ├── courseValidator.js
+│   │   │   └── commonValidator.js
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── encryption.js
+│   │   │   ├── jwt.js
+│   │   │   ├── logger.js
+│   │   │   ├── errorHandler.js
+│   │   │   ├── apiResponse.js
+│   │   │   ├── helpers.js
+│   │   │   └── constants.js
+│   │   │
+│   │   ├── config/
+│   │   │   ├── database.js
+│   │   │   ├── redis.js
+│   │   │   ├── aws.js
+│   │   │   ├── email.js
+│   │   │   ├── payment.js
+│   │   │   ├── socket.js
+│   │   │   └── app.js
+│   │   │
+│   │   ├── database/
+│   │   │   ├── connection.js
+│   │   │   ├── seeds/
+│   │   │   └── migrations/
+│   │   │
+│   │   ├── app.js                        # Express App Setup
+│   │   └── server.js                     # Server Entry Point
+│   │
 │   ├── tests/
+│   │   ├── unit/
+│   │   ├── integration/
+│   │   └── e2e/
+│   │
+│   ├── .env.development
+│   ├── .env.production
 │   ├── package.json
-│   └── server.js
-├── shared/                 # Shared utilities
-│   ├── constants/
-│   │   ├── userRoles.js
-│   │   ├── courseStatus.js
-│   │   ├── paymentStatus.js
-│   │   ├── approvalStatus.js
-│   │   └── errorCodes.js
-│   ├── schemas/
-│   │   ├── userSchema.js
-│   │   ├── courseSchema.js
-│   │   ├── paymentSchema.js
-│   │   └── validationSchema.js
-│   └── utils/
-│       ├── dateFormatters.js
-│       ├── currencyFormatters.js
-│       └── commonValidators.js
-└── docs/                  # Documentation
-    ├── api/
-    ├── setup/
-    ├── deployment/
-    └── features/
+│   ├── nodemon.json
+│   └── jest.config.js
+│
+├── 📁 lms-ai-service/                    # Python AI Microservice
+│   ├── app/
+│   │   ├── models/                       # ML Models
+│   │   ├── services/                     # AI Services
+│   │   ├── api/                          # FastAPI Routes
+│   │   └── utils/
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   └── main.py
+│
+├── 📁 lms-mobile/                        # React Native Mobile App
+│   ├── src/
+│   ├── android/
+│   ├── ios/
+│   └── package.json
+│
+├── 📁 docs/                              # Documentation
+│   ├── api/                              # API Documentation
+│   ├── user-guides/                      # User Manuals
+│   ├── developer/                        # Developer Guides
+│   └── architecture/                     # System Architecture
+│
+├── 📁 scripts/                           # Utility Scripts
+│   ├── deploy.sh
+│   ├── backup.sh
+│   └── seed.js
+│
+├── 📁 docker/                            # Docker Configuration
+│   ├── docker-compose.yml
+│   ├── frontend.Dockerfile
+│   ├── backend.Dockerfile
+│   └── nginx.conf
+│
+├── 📄 .gitignore
+├── 📄 .prettierrc
+├── 📄 .eslintrc
+├── 📄 README.md
+├── 📄 LICENSE
+├── 📄 package.json
+└── 📄 pnpm-workspace.yaml
 
-## Technology Stack
+🎯 Complete Feature Set
+1. 🔐 Authentication & Security
+Features:
+Multi-factor Authentication (2FA/MFA)
+Social Login (Google, Facebook, LinkedIn, GitHub)
+Single Sign-On (SSO) - SAML, OAuth 2.0, OpenID Connect
+Biometric Authentication (Face ID, Fingerprint)
+Email & SMS Verification
+Password Recovery & Reset
+Session Management
+Device Management & Tracking
+IP Whitelisting
+Role-Based Access Control (RBAC)
+JWT Token Authentication
+Refresh Token Rotation
+Account Lockout Protection
+CAPTCHA Integration
+Security Audit Logs
+Security Stack:
+Helmet
+CORS
+Rate Limiting
+Input Validation
+Output Encoding
+Error Handling
+Logging
+Monitoring
+Security Headers
+HSTS
+CSP
+XSS Protection
+CSRF Protection
+Clickjacking Protection
+{
+  "authentication": ["passport.js", "jsonwebtoken", "bcrypt"],
+  "authorization": ["casbin", "accesscontrol"],
+  "encryption": ["crypto-js", "helmet"],
+  "validation": ["joi", "express-validator"],
+  "security": ["csurf", "express-rate-limit", "hpp"],
+  "captcha": ["recaptcha-v3"],
+  "2FA": ["speakeasy", "otplib"]
+}
 
-### Frontend
-- **React 18** with Vite
-- **TypeScript**
-- **Tailwind CSS**
-- **Socket.io Client**
-- **React Query/TanStack Query**
-- **Framer Motion** (animations)
-- **Chart.js** (analytics)
-- **PWA Utilities**
-
-### Backend
-- **Node.js** with Express
-- **MongoDB** with Mongoose
-- **Socket.io**
-- **JWT** Authentication
-- **bcrypt** for encryption
-- **Multer** for file uploads
-- **Nodemailer** for emails
-
-### AI Services
-- **OpenAI API** / **Google Gemini**
-- **LangChain** for AI workflows
-- **Vector Databases** for embeddings
-- **WebRTC** for live sessions
-
-Key New Features Added:
-1. Course Management
-Course catalog with filtering
-
-Module and lesson structure
-
-Year-based course organization
-
-Completion tracking
-
-2. Payment System
-Multiple payment gateways (Stripe, PayPal, Razorpay)
-
-Fee management
-
-Invoice generation
-
-Subscription plans
-
-Payment history
-
-3. Approval Workflows
-Course enrollment approvals
-
-Payment approvals
-
-Certificate approvals
-
-Admin approval dashboard
-
-4. Enhanced Analytics
-Progress tracking
-
-Completion rates
-
-Performance metrics
-
-Learning analytics
-
-5. AI Features
-Floating AI assistant
-
-AI study planner
-
-Content generation
-
-Personalized learning paths
-
-6. Live Sessions
-WebRTC integration
-
-Virtual classrooms
-
-Live demos and meetings
-
-7. Certificate System
+2. 👥 User Profiles & Management
+Student Profile:
+Personal Information
+Profile picture & cover photo
+Bio & introduction
+Contact information
+Social media links
+Timezone & language preferences
+Academic Information
+Enrolled courses
+Learning progress
+Grade history
+Certificates earned
+Skills & competencies
+Learning goals
+Study schedule
+Social Features
+Friends & connections
+Following/Followers
+Activity feed
+Public portfolio
+Shared achievements
+Learning Analytics
+Performance dashboard
+Time tracking
+Engagement metrics
+Strength & weakness analysis
+Learning patterns
+Predictive insights
+Instructor Profile:
+Professional Information
+Teaching credentials
+Areas of expertise
+Teaching experience
+Awards & recognitions
+Publications
+Teaching Portfolio
+Courses created
+Student enrollment stats
+Average ratings
+Teaching effectiveness metrics
+Content library
+Analytics Dashboard
+Student performance overview
+Course completion rates
+Engagement statistics
+Revenue analytics
+Feedback analysis
+Teaching Tools
+Course creator
+Assessment builder
+Grading interface
+Communication hub
+Resource manager
+Admin Profile:
+System Management
+User management
+Course moderation
+Content approval
+System settings
+Feature flags
+Analytics & Reporting
+Platform analytics
+Financial reports
+User behavior analysis
+System health monitoring
+Custom report builder
+Administrative Tools
+Role & permission management
+Billing & subscriptions
+Email campaigns
+Announcement system
+Audit logs
+3. 📚 Course Management System
+Course Creation:
+Course Builder Interface
+Drag-and-drop curriculum designer
+Multi-format content support
+SCORM compliance
+Version control
+Templates library
+Content Types
+Video lectures (with chapters)
+Interactive presentations
+PDF documents
+Audio files
+Code exercises
+Quizzes & assessments
+Live sessions
+External resources
+Course Structure
+Modules & sections
+Prerequisites
+Learning objectives
+Completion criteria
+Drip content scheduling
+Adaptive pathways
+Course Features:
+Interactive Elements
+In-video quizzes
+Code playgrounds
+Interactive simulations
+Virtual labs
+3D models viewer
+Annotations
+Collaboration
+Discussion boards
+Group projects
+Peer reviews
+Study groups
+Live Q&A sessions
+Accessibility
+Closed captions
+Transcripts
+Screen reader support
+Multiple language support
+Adjustable playback speed
+Dark/Light mode
+Course Management:
+Version Control
+Content Scheduling
+Access Management
+Pricing & Monetization
+Course Analytics
+Student Management
+Certificate Generation
+4. 📝 Assessment & Examination System
+Assessment Types:
+Quizzes
+Multiple choice
+True/False
+Fill in the blanks
+Matching
+Ordering
+Hotspot
+Drag & drop
+Assignments
+Essay submissions
+File uploads
+Code submissions
+Video assignments
+Peer-reviewed
+Group assignments
+Exams
+Timed exams
+Proctored exams
+Practice tests
+Certification exams
+Adaptive testing
+Advanced Features:
+AI-Powered Proctoring
+Face detection & recognition
+Eye tracking
+Tab switching detection
+Multiple person detection
+Audio monitoring
+Behavior analysis
+Automated flagging
+Automated Grading
+Multiple choice auto-grading
+Code execution & testing
+AI essay scoring
+Rubric-based evaluation
+Partial credit assignment
+Plagiarism Detection
+Text similarity checking
+Code plagiarism detection
+Cross-reference with databases
+Originality reports
+Question Bank
+Categorized questions
+Difficulty levels
+Random question selection
+Question analytics
+Import/Export functionality
+Grading System:
+Grading Interface
+Rubrics Creator
+Batch Grading
+Grade Distribution Analytics
+Grade Appeals
+Gradebook
+Progress Reports
+5. 🎥 Webinars & Live Classes
+Live Classroom Features:
+Video Conferencing
+HD video streaming
+Screen sharing
+Virtual backgrounds
+Beauty filters
+Recording capabilities
+Breakout rooms
+Interactive Whiteboard
+Drawing tools
+Shape tools
+Text annotations
+Image insertion
+PDF annotation
+Collaborative editing
+Save & export
+Presentation Tools
+Screen sharing
+PowerPoint integration
+PDF viewer
+YouTube integration
+Application sharing
+Participant Management
+Mute/Unmute controls
+Raise hand feature
+Polls & surveys
+Q&A session
+Chat moderation
+Attendance tracking
+Participant roles
+Webinar Features:
+Pre-webinar
+Registration system
+Email reminders
+Calendar integration
+Landing pages
+Promotional tools
+During Webinar
+Live streaming
+Chat & Q&A
+Polls & surveys
+Resource sharing
+Networking features
+Real-time analytics
+Post-webinar
+Recordings
+Transcripts
+Analytics reports
+Follow-up emails
 Certificate generation
+Replay access
+Technical Stack:
 
-Verification system
 
-Digital certificates
+{
+  "webrtc": ["simple-peer", "mediasoup", "peerjs"],
+  "streaming": ["agora.io", "twilio-video", "jitsi"],
+  "recording": ["recordrtc", "mediarecorder-api"],
+  "whiteboard": ["fabric.js", "konva.js", "excalidraw"],
+  "chat": ["socket.io", "websockets"]
+}
 
-## System Architecture
+6. 💬 Messaging & Communication
+Chat Features:
+Direct Messaging
+One-on-one chat
+Group chats
+File sharing
+Voice messages
+Video messages
+Emoji reactions
+Message formatting
+Code snippets
+Real-time Features
+Typing indicators
+Read receipts
+Online/Offline status
+Last seen
+Push notifications
+Advanced Features
+Message search
+Starred messages
+Message threading
+Mentions & tagging
+Message forwarding
+Message deletion
+Edit history
+Pin messages
+Video/Audio Calls:
+One-on-One Calls
+Group Calls
+Screen Sharing
+Call Recording
+Call History
+Voicemail
+Email Integration:
+Announcements
+Newsletters
+Course Updates
+Grade Notifications
+Event Reminders
+Custom Templates
+7. 🗣️ Forums & Discussions
+Forum Features:
+Categories & Sub-forums
+Thread Creation
+Rich Text Editor
+File Attachments
+Code Formatting
+Polls & Surveys
+Best Answer Selection
+Voting System (Upvote/Downvote)
+Thread Tagging
+Advanced Search
+User Mentions
+Email Notifications
+Moderation Tools
+Pinned Threads
+Locked Threads
+Reporting System
+AI-Powered Features:
+Auto-categorization
+Duplicate Detection
+Smart Suggestions
+Sentiment Analysis
+Content Moderation
+Auto-responses
+8. 🌐 Social Learning Network
+Social Features:
+News Feed
+Personalized feed
+Activity updates
+Course recommendations
+Trending content
+Posts & Sharing
+Text posts
+Image/Video sharing
+Link sharing
+Achievement sharing
+Study notes sharing
+Social Interactions
+Like & reactions
+Comments
+Share
+Save
+Report
+Connections
+Follow users
+Friend requests
+Study groups
+Mentorship connections
+Alumni network
+Profile Customization
+Themes
+Privacy settings
+Visibility controls
+Custom profile URL
+Community Features:
+Groups & Communities
+Events Calendar
+Study Circles
+Interest-based Communities
+Regional Communities
+9. 📖 Digital Library
+Library Features:
+Resource Types
+E-books (EPUB, MOBI, PDF)
+Research papers
+Video tutorials
+Audio books
+Podcasts
+Presentations
+Code repositories
+Interactive content
+E-book Reader
+Multiple format support
+Adjustable font & size
+Night mode
+Highlights & annotations
+Bookmarks
+Dictionary integration
+Text-to-speech
+Progress tracking
+Organization
+Personal bookshelves
+Collections
+Tags & categories
+Favorites
+Reading lists
+Recently accessed
+Discovery
+Advanced search
+Filters & sorting
+AI recommendations
+Trending resources
+New arrivals
+Curated collections
+Collaboration
+Shared annotations
+Public notes
+Resource reviews
+Collaborative bibliographies
+10. 💻 Integrated Development Environment (IDE)
+IDE Features:
+Code Editor
+Syntax highlighting
+Auto-completion
+Code formatting
+Multiple language support
+Theme customization
+Key bindings
+Supported Languages
+JavaScript/TypeScript
+Python
+Java
+C/C++
+PHP
+Ruby
+Go
+Rust
+SQL
+Development Tools
+Integrated terminal
+Debugger
+Git integration
+Package manager
+Build tools
+Testing framework
+Collaboration
+Live code sharing
+Real-time collaboration
+Code reviews
+Pair programming
+Version control
+Code Execution
+Run code online
+Input/Output handling
+Error highlighting
+Performance metrics
+Unit testing
+Projects
+File explorer
+Project templates
+Import/Export
+Cloud saves
+Deployment tools
+Technical Stack:
 
-```mermaid
-graph TB
-    A[Client - React Vite] --> B[API Gateway - Express]
-    B --> C[Auth Service]
-    B --> D[Course Service]
-    B --> E[AI Service]
-    B --> F[Analytics Service]
-    B --> G[Live Session Service]
-    
-    C --> H[(MongoDB - Users)]
-    D --> I[(MongoDB - Courses)]
-    E --> J[AI Providers]
-    F --> K[(MongoDB - Analytics)]
-    G --> L[WebRTC/Socket.io]
-    
-    M[PWA Service Worker] --> A
-    N[Push Notifications] --> A
-```
+{
+  "editor": ["monaco-editor", "codemirror"],
+  "execution": ["judge0", "piston", "docker"],
+  "collaboration": ["yjs", "operational-transform"],
+  "terminal": ["xterm.js"],
+  "git": ["isomorphic-git"]
+}
 
-## 1. Auth System Implementation
+11. 🤖 AI-Powered Features
+AI Chatbot & Virtual Assistant:
+24/7 Support
+Natural Language Understanding
+Context-aware Conversations
+Multi-language Support
+Voice Interaction
+Personalized Responses
+Learning Path Guidance
+Doubt Resolution
+Resource Recommendations
+Smart Recommendations:
+Course Recommendations
+Based on interests
+Based on skills
+Based on career goals
+Based on peers
+Content Recommendations
+Personalized learning materials
+Related courses
+Relevant webinars
+Study groups
+Career Guidance
+Career path suggestions
+Skill gap analysis
+Job recommendations
+Learning roadmap
+AI Tutor:
+Step-by-Step Solutions
+Concept Explanations
+Hint System
+Practice Problems
+Personalized Feedback
+Learning Style Adaptation
+Content Generation:
+Quiz Generation
+Summary Creation
+Flashcards
+Study Guides
+Practice Questions
+Transcripts & Captions
+AI Proctoring:
+Face Recognition
+Eye Tracking
+Audio Analysis
+Behavior Monitoring
+Anomaly Detection
+Automated Reporting
+Predictive Analytics:
+Performance Prediction
+Dropout Risk Analysis
+Success Probability
+Engagement Forecasting
+Intervention Recommendations
+AI Stack:
 
-### Models
-```javascript
-// models/User.js
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { 
-    type: String, 
-    enum: ['student', 'instructor', 'admin', 'developer'],
-    default: 'student'
+{
+  "nlp": ["transformers", "spacy", "nltk", "openai-gpt"],
+  "ml": ["tensorflow", "pytorch", "scikit-learn"],
+  "cv": ["opencv", "face-api.js", "tensorflow.js"],
+  "speech": ["google-cloud-speech", "azure-speech"],
+  "chatbot": ["dialogflow", "rasa", "botpress"],
+  "recommendations": ["tensorflow-recommenders"]
+}
+
+12. 📊 Analytics & Reporting
+Student Analytics:
+Learning Progress
+Time Spent
+Performance Trends
+Engagement Metrics
+Skill Development
+Comparison with Peers
+Strengths & Weaknesses
+Predictive Insights
+Instructor Analytics:
+Course Performance
+Student Engagement
+Completion Rates
+Assessment Analytics
+Content Effectiveness
+Revenue Analytics
+Student Feedback
+Admin Analytics:
+Platform Overview
+User Statistics
+Course Analytics
+Revenue Reports
+Engagement Metrics
+System Performance
+Growth Trends
+Custom Reports
+Visualization Tools:
+JavaScript
+
+{
+  "charts": ["chart.js", "recharts", "victory"],
+  "dashboards": ["react-grid-layout", "react-dashboard"],
+  "export": ["jspdf", "xlsx", "csv-export"]
+}
+
+13. 🎮 Gamification System
+Gamification Features:
+Points System
+Earn points for activities
+Redeemable rewards
+Point leaderboards
+Badges & Achievements
+Course completion badges
+Skill badges
+Participation badges
+Milestone achievements
+Rare achievements
+Leaderboards
+Global leaderboard
+Course-specific
+Weekly/Monthly
+Friend leaderboards
+Levels & Progression
+Experience points (XP)
+Level ups
+Unlockables
+Progress visualization
+Challenges & Quests
+Daily challenges
+Weekly quests
+Streak tracking
+Special events
+Rewards
+Virtual currency
+Unlockable features
+Certificates
+Discounts
+Recognition
+14. 📱 Notifications System
+Notification Types:
+Push Notifications
+Email Notifications
+SMS Notifications
+In-App Notifications
+Browser Notifications
+Mobile App Notifications
+Notification Categories:
+Course Updates
+Assignment Deadlines
+Grade Posted
+Messages
+Forum Replies
+Live Class Reminders
+Achievement Unlocked
+System Announcements
+Friend Requests
+Comments & Mentions
+Notification Settings:
+Notification Preferences
+Frequency Control
+Channel Selection
+Quiet Hours
+Priority Notifications
+15. 🎓 Learning Centers & Demos
+Learning Centers:
+Onboarding Center
+Platform tour
+Getting started guides
+Video tutorials
+Interactive walkthroughs
+Help Center
+FAQs
+Knowledge base
+Video tutorials
+Troubleshooting guides
+Contact support
+Resource Center
+Templates
+Best practices
+Case studies
+Success stories
+Webinar recordings
+Career Center
+Career guidance
+Job board
+Resume builder
+Interview prep
+Skill assessments
+Demo Features:
+Interactive Demos
+Sandbox Environment
+Sample Courses
+Feature Showcase
+Video Walkthroughs
+16. 🔧 Admin Panel
+Admin Features:
+User Management
+User CRUD operations
+Bulk operations
+Import/Export users
+User verification
+Account suspension
+Course Management
+Course approval
+Content moderation
+Category management
+Featured courses
+Content Moderation
+Review forum posts
+Moderate comments
+Flag management
+Auto-moderation rules
+System Settings
+Platform configuration
+Feature toggles
+Email templates
+Payment gateway
+API keys
+Billing & Subscriptions
+Payment processing
+Subscription plans
+Invoicing
+Refunds
+Revenue reports
+Analytics Dashboard
+Real-time metrics
+Custom reports
+Data export
+Trend analysis
+Security & Compliance
+Audit logs
+Security settings
+GDPR compliance
+Data backup
+Access logs
+17. 🎨 UI/UX Features
+Design System:
+Splash Screens
+Animated splash
+Loading screens
+Skeleton loaders
+Progress indicators
+Themes
+Light mode
+Dark mode
+High contrast
+Custom themes
+Color customization
+Responsive Design
+Mobile-first
+Tablet optimized
+Desktop experience
+PWA support
+Accessibility
+WCAG 2.1 AA compliance
+Screen reader support
+Keyboard navigation
+Focus indicators
+Alt text
+ARIA labels
+Animations
+Micro-interactions
+Page transitions
+Loading animations
+Success animations
+Error animations
+Localization
+Multi-language support
+RTL support
+Currency formatting
+Date/Time formatting
+Timezone handling
+🛠️ Complete Technology Stack
+Frontend Stack
+
+{
+  // Core Framework
+  "framework": "React 18.2+",
+  "buildTool": "Vite 4.0+",
+  "language": "TypeScript 5.0+",
+  
+  // UI Libraries
+  "ui": {
+    "componentLibrary": "Material-UI v5 / Ant Design / Chakra UI",
+    "styling": ["tailwindcss", "styled-components", "emotion"],
+    "icons": ["react-icons", "heroicons", "lucide-react"],
+    "animations": ["framer-motion", "react-spring", "lottie-react"]
   },
+  
+  // State Management
+  "state": {
+    "global": "Redux Toolkit / Zustand / Jotai",
+    "server": "React Query / SWR",
+    "forms": "React Hook Form + Zod"
+  },
+  
+  // Routing
+  "routing": "React Router v6",
+  
+  // Real-time Communication
+  "realtime": {
+    "websocket": "Socket.io-client",
+    "webrtc": "simple-peer / PeerJS",
+    "videoConf": "Agora.io / Twilio / Jitsi"
+  },
+  
+  // Rich Text Editors
+  "editors": {
+    "richText": ["quill", "slate", "tiptap", "draft-js"],
+    "code": ["monaco-editor", "codemirror", "ace"],
+    "markdown": ["react-markdown", "mdx"]
+  },
+  
+  // Media Handling
+  "media": {
+    "videoPlayer": ["video.js", "plyr", "react-player"],
+    "imageProcessing": ["react-image-crop", "cropperjs"],
+    "pdfViewer": ["react-pdf", "pdfjs-dist"],
+    "fileUpload": ["react-dropzone", "filepond"]
+  },
+  
+  // Charts & Visualization
+  "visualization": {
+    "charts": ["recharts", "chart.js", "victory", "nivo"],
+    "diagrams": ["react-flow", "mermaid"],
+    "3d": ["three.js", "react-three-fiber"]
+  },
+  
+  // Utilities
+  "utilities": {
+    "dates": ["date-fns", "dayjs"],
+    "forms": ["yup", "zod", "joi"],
+    "http": ["axios", "ky"],
+    "i18n": ["react-i18next", "formatjs"],
+    "testing": ["vitest", "jest", "react-testing-library", "playwright"],
+    "pwa": ["workbox", "vite-plugin-pwa"]
+  },
+  
+  // AI/ML
+  "ai": {
+    "tfjs": "@tensorflow/tfjs",
+    "nlp": "compromise / natural",
+    "faceDetection": "face-api.js"
+  }
+}
+
+Backend Stack
+{
+  // Runtime & Framework
+  "runtime": "Node.js 18+ LTS",
+  "framework": "Express.js / Fastify / NestJS",
+  "language": "TypeScript",
+  
+  // Database
+  "database": {
+    "primary": "MongoDB 6+ / PostgreSQL 15+",
+    "orm": "Mongoose / Prisma / TypeORM",
+    "cache": "Redis 7+",
+    "search": "Elasticsearch / MeiliSearch"
+  },
+  
+  // Authentication & Security
+  "auth": {
+    "jwt": "jsonwebtoken",
+    "oauth": "passport.js",
+    "2fa": "speakeasy / otplib",
+    "encryption": "bcrypt / argon2",
+    "security": ["helmet", "cors", "express-rate-limit", "hpp"]
+  },
+  
+  // Real-time
+  "realtime": {
+    "websocket": "Socket.io",
+    "webrtc": "mediasoup / kurento"
+  },
+  
+  // File Storage
+  "storage": {
+    "cloud": ["aws-sdk (S3)", "cloudinary", "google-cloud-storage"],
+    "local": "multer"
+  },
+  
+  // Email & SMS
+  "communication": {
+    "email": ["nodemailer", "sendgrid", "mailgun"],
+    "sms": ["twilio", "aws-sns"],
+    "push": ["firebase-admin", "onesignal"]
+  },
+  
+  // Payment
+  "payment": ["stripe", "paypal-rest-sdk", "razorpay"],
+  
+  // Queue & Jobs
+  "queue": {
+    "jobQueue": "Bull / BullMQ",
+    "scheduler": "node-cron / agenda"
+  },
+  
+  // Video Processing
+  "video": {
+    "processing": "ffmpeg / fluent-ffmpeg",
+    "streaming": "hls.js / dash.js"
+  },
+  
+  // API Documentation
+  "docs": {
+    "swagger": "swagger-ui-express / swagger-jsdoc",
+    "postman": "@postman/newman"
+  },
+  
+  // Testing
+  "testing": {
+    "unit": "jest / mocha",
+    "integration": "supertest",
+    "e2e": "playwright / cypress"
+  },
+  
+  // Monitoring & Logging
+  "monitoring": {
+    "logging": ["winston", "pino", "morgan"],
+    "apm": ["newrelic", "datadog", "sentry"],
+    "metrics": "prometheus / grafana"
+  },
+  
+  // Validation
+  "validation": ["joi", "yup", "express-validator"],
+  
+  // Utilities
+  "utilities": {
+    "dates": "moment / dayjs",
+    "uuid": "uuid",
+    "lodash": "lodash",
+    "async": "async"
+  }
+}
+
+AI/ML Stack (Python Microservice)
+{
+  # Framework
+  "framework": "FastAPI / Flask",
+  
+  # Machine Learning
+  "ml": [
+    "tensorflow",
+    "pytorch",
+    "scikit-learn",
+    "xgboost",
+    "lightgbm"
+  ],
+  
+  # NLP
+  "nlp": [
+    "transformers (Hugging Face)",
+    "spacy",
+    "nltk",
+    "gensim",
+    "sentence-transformers"
+  ],
+  
+  # Computer Vision
+  "cv": [
+    "opencv-python",
+    "pillow",
+    "face_recognition",
+    "mediapipe"
+  ],
+  
+  # Data Processing
+  "data": [
+    "pandas",
+    "numpy",
+    "scipy"
+  ],
+  
+  # APIs
+  "api": [
+    "openai",
+    "anthropic",
+    "google-cloud-aiplatform"
+  ]
+}
+
+DevOps & Infrastructure
+containerization:
+  - Docker
+  - Docker Compose
+  - Kubernetes
+
+ci_cd:
+  - GitHub Actions
+  - GitLab CI
+  - Jenkins
+
+cloud_providers:
+  - AWS (EC2, S3, Lambda, RDS, CloudFront)
+  - Google Cloud Platform
+  - Microsoft Azure
+  - DigitalOcean
+
+cdn:
+  - Cloudflare
+  - AWS CloudFront
+  - Fastly
+
+monitoring:
+  - Prometheus
+  - Grafana
+  - New Relic
+  - Datadog
+  - Sentry
+
+databases:
+  primary:
+    - MongoDB Atlas
+    - PostgreSQL (AWS RDS)
+  cache:
+    - Redis Cloud
+  search:
+    - Elasticsearch
+
+web_server:
+  - Nginx
+  - Apache
+
+ssl:
+  - Let's Encrypt
+  - Cloudflare SSL
+
+  📊 Database Schema Design
+Users Collection
+{
+  _id: ObjectId,
+  email: String (unique, required),
+  username: String (unique, required),
+  password: String (hashed),
+  role: Enum ['student', 'instructor', 'admin'],
   profile: {
     firstName: String,
     lastName: String,
-    avatar: String,
+    avatar: String (URL),
+    coverPhoto: String (URL),
     bio: String,
-    specialization: String
+    phone: String,
+    dateOfBirth: Date,
+    gender: Enum,
+    country: String,
+    city: String,
+    timezone: String,
+    language: String,
+    socialLinks: {
+      linkedin: String,
+      github: String,
+      twitter: String,
+      website: String
+    }
   },
-  isVerified: { type: Boolean, default: false },
-  verificationToken: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
   preferences: {
-    theme: { type: String, default: 'light' },
-    notifications: { type: Boolean, default: true }
-  }
-}, { timestamps: true });
+    theme: Enum ['light', 'dark'],
+    notifications: Object,
+    privacy: Object,
+    language: String
+  },
+  security: {
+    twoFactorEnabled: Boolean,
+    twoFactorSecret: String,
+    lastLogin: Date,
+    loginHistory: Array,
+    devices: Array
+  },
+  subscription: {
+    plan: String,
+    status: Enum,
+    startDate: Date,
+    endDate: Date
+  },
+  gamification: {
+    points: Number,
+    level: Number,
+    badges: Array,
+    achievements: Array,
+    streak: Number
+  },
+  stats: {
+    coursesEnrolled: Number,
+    coursesCompleted: Number,
+    certificatesEarned: Number,
+    totalLearningTime: Number
+  },
+  createdAt: Date,
+  updatedAt: Date
+}
 
-// server/models/Course.js
-const courseSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+Courses Collection
+{
+  _id: ObjectId,
+  title: String,
+  slug: String (unique),
   description: String,
-  instructor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  category: String,
-  level: { type: String, enum: ['beginner', 'intermediate', 'advanced'] },
-  year: Number,
-  price: { type: Number, default: 0 },
-  currency: { type: String, default: 'USD' },
-  duration: Number, // in hours
-  modules: [{
+  shortDescription: String,
+  thumbnail: String,
+  previewVideo: String,
+  instructor: ObjectId (ref: User),
+  category: ObjectId (ref: Category),
+  subcategory: ObjectId,
+  level: Enum ['beginner', 'intermediate', 'advanced'],
+  language: String,
+  subtitles: Array,
+  tags: Array,
+  
+  curriculum: [{
+    moduleId: ObjectId,
     title: String,
     description: String,
     order: Number,
     lessons: [{
+      lessonId: ObjectId,
       title: String,
-      content: String,
-      videoUrl: String,
+      type: Enum ['video', 'article', 'quiz', 'assignment', 'live'],
+      content: Mixed,
       duration: Number,
-      resources: [{
-        title: String,
-        url: String,
-        type: String
-      }],
+      resources: Array,
       order: Number,
-      isFree: { type: Boolean, default: false }
+      isPreview: Boolean,
+      completionCriteria: Object
     }]
   }],
-  status: { 
-    type: String, 
-    enum: ['draft', 'pending', 'approved', 'rejected'],
-    default: 'draft'
-  },
-  requirements: [String],
-  learningOutcomes: [String],
-  thumbnail: String,
-  isFeatured: { type: Boolean, default: false },
-  enrollmentCount: { type: Number, default: 0 }
-}, { timestamps: true });
-
-// server/models/Payment.js
-const paymentSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
-  amount: { type: Number, required: true },
-  currency: { type: String, default: 'USD' },
-  paymentMethod: { 
-    type: String, 
-    enum: ['stripe', 'paypal', 'razorpay', 'bank_transfer'],
-    required: true 
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'completed', 'failed', 'refunded'],
-    default: 'pending'
-  },
-  gatewayResponse: Object,
-  invoiceNumber: String,
-  approvalStatus: {
-    type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending'
-  }
-}, { timestamps: true });
-
-### Components
-```jsx
-// client/src/components/auth/LoginForm.jsx
-import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-
-export default function LoginForm() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const { login, isLoading } = useAuth();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await login(formData);
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={(e) => setFormData({...formData, email: e.target.value})}
-        className="w-full p-3 border rounded-lg"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={(e) => setFormData({...formData, password: e.target.value})}
-        className="w-full p-3 border rounded-lg"
-      />
-      <button 
-        type="submit" 
-        disabled={isLoading}
-        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
-      >
-        {isLoading ? 'Signing in...' : 'Sign In'}
-      </button>
-    </form>
-  );
-}
-```
-
-## 2. Dashboard System
-
-### Role-Based Dashboards
-```jsx
-// client/src/components/dashboard/DashboardRouter.jsx
-import { useAuth } from '../../context/AuthContext';
-
-export default function DashboardRouter() {
-  const { user } = useAuth();
-
-  const renderDashboard = () => {
-    switch(user.role) {
-      case 'admin':
-        return <AdminDashboard />;
-      case 'instructor':
-        return <InstructorDashboard />;
-      case 'student':
-        return <StudentDashboard />;
-      case 'developer':
-        return <DeveloperDashboard />;
-      default:
-        return <StudentDashboard />;
+  
+  pricing: {
+    type: Enum ['free', 'paid', 'subscription'],
+    price: Number,
+    currency: String,
+    discount: {
+      type: Enum ['percentage', 'fixed'],
+      value: Number,
+      startDate: Date,
+      endDate: Date
     }
-  };
-
-  return (
-    <div className="flex h-screen">
-      <SideNavbar />
-      <div className="flex-1 flex flex-col">
-        <TopNavbar />
-        <main className="flex-1 p-6 overflow-auto">
-          {renderDashboard()}
-        </main>
-      </div>
-    </div>
-  );
-}
-```
-
-### Admin Dashboard Components
-```jsx
-// client/src/components/dashboard/AdminDashboard.jsx
-export default function AdminDashboard() {
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalCourses: 0,
-    activeSessions: 0,
-    revenue: 0
-  });
-
-  return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <StatCard title="Total Users" value={stats.totalUsers} icon="👥" />
-        <StatCard title="Total Courses" value={stats.totalCourses} icon="📚" />
-        <StatCard title="Active Sessions" value={stats.activeSessions} icon="🔴" />
-        <StatCard title="Revenue" value={`$${stats.revenue}`} icon="💰" />
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentActivity />
-        <UserGrowthChart />
-      </div>
-    </div>
-  );
-}
-```
-
-## 3. Splash Screen & Routing
-
-```jsx
-// client/src/App.jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import SplashScreen from './components/common/SplashScreen';
-import { useState, useEffect } from 'react';
-
-function App() {
-  const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (showSplash) {
-    return <SplashScreen />;
-  }
-
-  return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/auth/*" element={<AuthPages />} />
-          <Route path="/dashboard/*" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
-          <Route path="/courses/*" element={<Courses />} />
-          <Route path="/live/:sessionId" element={<LiveSession />} />
-          <Route path="/library" element={<Library />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  );
-}
-```
-
-## 4. Layout Components
-
-### Navigation Structure
-```jsx
-// client/src/components/layout/TopNavbar.jsx
-export default function TopNavbar() {
-  const { user, logout } = useAuth();
-  const [isDark, setIsDark] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
-
-  return (
-    <nav className="bg-white dark:bg-gray-800 shadow-sm border-b">
-      <div className="flex justify-between items-center px-6 py-4">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-bold">AI LMS</h1>
-          <AIFloatingAssistant />
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-            {isDark ? '🌙' : '☀️'}
-          </button>
-          
-          <Notifications />
-          
-          <UserMenu user={user} onLogout={logout} />
-        </div>
-      </div>
-    </nav>
-  );
-}
-```
-
-## 5. AI Features Implementation
-
-### Floating AI Assistant
-```jsx
-// client/src/components/ai/AIFloatingAssistant.jsx
-import { useState, useRef } from 'react';
-import { useAIChat } from '../../hooks/useAIChat';
-
-export default function AIFloatingAssistant() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const { messages, sendMessage, isLoading } = useAIChat();
-  const messagesEndRef = useRef(null);
-
-  const handleSend = async () => {
-    if (message.trim()) {
-      await sendMessage(message);
-      setMessage('');
-    }
-  };
-
-  return (
-    <div className="fixed bottom-6 right-6 z-50">
-      {isOpen && (
-        <div className="absolute bottom-16 right-0 w-80 h-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border">
-          <div className="flex flex-col h-full">
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((msg, index) => (
-                <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-xs p-3 rounded-lg ${
-                    msg.role === 'user' 
-                      ? 'bg-blue-500 text-white' 
-                      : 'bg-gray-200 dark:bg-gray-700'
-                  }`}>
-                    {msg.content}
-                  </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-lg">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-            
-            <div className="p-4 border-t">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask me anything..."
-                  className="flex-1 p-2 border rounded-lg"
-                  disabled={isLoading}
-                />
-                <button 
-                  onClick={handleSend}
-                  disabled={isLoading}
-                  className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
-                >
-                  Send
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all"
-      >
-        <span className="text-2xl">🤖</span>
-      </button>
-    </div>
-  );
-}
-```
-
-### AI Service Backend
-```javascript
-// server/services/aiService.js
-const { OpenAI } = require('openai');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-
-class AIService {
-  constructor() {
-    this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  }
-
-  async generateChatResponse(messages, context = {}) {
-    try {
-      const prompt = this.buildPrompt(messages, context);
-      
-      // Use OpenAI or Gemini based on configuration
-      const completion = await this.openai.chat.completions.create({
-        model: "gpt-4",
-        messages: prompt,
-        max_tokens: 500,
-        temperature: 0.7
-      });
-
-      return completion.choices[0].message.content;
-    } catch (error) {
-      console.error('AI Service Error:', error);
-      throw new Error('Failed to generate AI response');
-    }
-  }
-
-  async generateCourseContent(topic, level, style = 'academic') {
-    // AI-powered course content generation
-    const prompt = `Generate course content about ${topic} for ${level} level in ${style} style.`;
-    
-    const completion = await this.openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 1000
-    });
-
-    return this.parseCourseContent(completion.choices[0].message.content);
-  }
-
-  buildPrompt(messages, context) {
-    const systemPrompt = {
-      role: "system",
-      content: `You are an AI teaching assistant for an LMS platform. 
-      Context: User is a ${context.role} learning ${context.subject}. 
-      Provide helpful, educational responses.`
-    };
-
-    return [systemPrompt, ...messages];
-  }
-}
-
-module.exports = new AIService();
-```
-
-## 6. User Profiles & Settings
-
-```jsx
-// client/src/components/profile/UserProfile.jsx
-export default function UserProfile() {
-  const { user, updateProfile } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(user.profile);
-
-  const handleSave = async () => {
-    await updateProfile(formData);
-    setIsEditing(false);
-  };
-
-  return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Profile</h2>
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-1">
-            <AvatarUpload 
-              currentAvatar={user.profile.avatar}
-              onAvatarChange={(url) => setFormData({...formData, avatar: url})}
-              disabled={!isEditing}
-            />
-          </div>
-          
-          <div className="md:col-span-2 space-y-4">
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                  className="w-full p-3 border rounded-lg"
-                  placeholder="First Name"
-                />
-                <input
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                  className="w-full p-3 border rounded-lg"
-                  placeholder="Last Name"
-                />
-                <textarea
-                  value={formData.bio}
-                  onChange={(e) => setFormData({...formData, bio: e.target.value})}
-                  className="w-full p-3 border rounded-lg"
-                  placeholder="Bio"
-                  rows="4"
-                />
-                <button
-                  onClick={handleSave}
-                  className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
-                >
-                  Save Changes
-                </button>
-              </>
-            ) : (
-              <>
-                <h3 className="text-xl font-semibold">
-                  {user.profile.firstName} {user.profile.lastName}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">{user.email}</p>
-                <p className="mt-4">{user.profile.bio}</p>
-                <div className="flex items-center space-x-2 mt-2">
-                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                    {user.role}
-                  </span>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-```
-
-## 7. Live Sessions Implementation
-
-### WebRTC Configuration
-```javascript
-// server/services/webrtcService.js
-const socketIO = require('socket.io');
-
-class WebRTCService {
-  constructor(server) {
-    this.io = socketIO(server, {
-      cors: {
-        origin: process.env.CLIENT_URL,
-        methods: ["GET", "POST"]
-      }
-    });
-
-    this.rooms = new Map();
-    this.setupSocketHandlers();
-  }
-
-  setupSocketHandlers() {
-    this.io.on('connection', (socket) => {
-      console.log('User connected:', socket.id);
-
-      socket.on('join-room', (roomId, userId) => {
-        socket.join(roomId);
-        
-        if (!this.rooms.has(roomId)) {
-          this.rooms.set(roomId, new Set());
-        }
-        this.rooms.get(roomId).add(userId);
-
-        socket.to(roomId).emit('user-connected', userId);
-        
-        // Send current participants to the new user
-        const participants = Array.from(this.rooms.get(roomId));
-        socket.emit('current-participants', participants);
-      });
-
-      socket.on('offer', (offer, targetUserId, roomId) => {
-        socket.to(roomId).emit('offer', offer, socket.id, targetUserId);
-      });
-
-      socket.on('answer', (answer, targetUserId, roomId) => {
-        socket.to(roomId).emit('answer', answer, socket.id, targetUserId);
-      });
-
-      socket.on('ice-candidate', (candidate, targetUserId, roomId) => {
-        socket.to(roomId).emit('ice-candidate', candidate, socket.id, targetUserId);
-      });
-
-      socket.on('disconnect', () => {
-        this.rooms.forEach((participants, roomId) => {
-          if (participants.has(socket.id)) {
-            participants.delete(socket.id);
-            socket.to(roomId).emit('user-disconnected', socket.id);
-            
-            if (participants.size === 0) {
-              this.rooms.delete(roomId);
-            }
-          }
-        });
-      });
-    });
-  }
-}
-
-module.exports = WebRTCService;
-```
-
-## 8. Analytics & Performance Tracking
-
-```javascript
-// server/models/Analytics.js
-const analyticsSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
-  lessonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' },
-  eventType: { 
-    type: String, 
-    enum: [
-      'lesson_start',
-      'lesson_complete',
-      'quiz_attempt',
-      'quiz_score',
-      'video_watch',
-      'resource_download',
-      'time_spent'
-    ],
-    required: true
   },
-  metadata: {
+  
+  requirements: Array,
+  learningOutcomes: Array,
+  targetAudience: Array,
+  
+  settings: {
+    enrollmentLimit: Number,
+    enrollmentDeadline: Date,
+    certificateEnabled: Boolean,
+    discussionEnabled: Boolean,
+    dripContent: Boolean,
+    dripSchedule: Object
+  },
+  
+  stats: {
+    enrollments: Number,
+    completions: Number,
+    averageRating: Number,
+    totalReviews: Number,
+    totalRevenue: Number
+  },
+  
+  seo: {
+    metaTitle: String,
+    metaDescription: String,
+    keywords: Array
+  },
+  
+  status: Enum ['draft', 'published', 'archived'],
+  publishedAt: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+Enrollments Collection
+{
+  _id: ObjectId,
+  student: ObjectId (ref: User),
+  course: ObjectId (ref: Course),
+  enrolledAt: Date,
+  
+  progress: {
+    completedLessons: Array<ObjectId>,
+    currentLesson: ObjectId,
+    percentComplete: Number,
+    lastAccessedAt: Date,
+    totalTimeSpent: Number
+  },
+  
+  grades: {
+    quizzes: Array,
+    assignments: Array,
+    finalGrade: Number,
+    letterGrade: String
+  },
+  
+  status: Enum ['active', 'completed', 'dropped'],
+  completedAt: Date,
+  
+  certificate: {
+    issued: Boolean,
+    issuedAt: Date,
+    certificateId: String,
+    certificateUrl: String
+  }
+}
+
+Assessments Collection
+{
+  _id: ObjectId,
+  course: ObjectId (ref: Course),
+  lesson: ObjectId,
+  type: Enum ['quiz', 'exam', 'assignment'],
+  title: String,
+  instructions: String,
+  
+  questions: [{
+    questionId: ObjectId,
+    type: Enum ['mcq', 'true-false', 'short-answer', 'essay', 'code'],
+    question: String,
+    options: Array,
+    correctAnswer: Mixed,
+    points: Number,
+    explanation: String
+  }],
+  
+  settings: {
+    duration: Number,
+    passingScore: Number,
+    attemptsAllowed: Number,
+    showCorrectAnswers: Boolean,
+    shuffleQuestions: Boolean,
+    shuffleOptions: Boolean,
+    proctored: Boolean,
+    proctoringSettings: Object
+  },
+  
+  availability: {
+    startDate: Date,
+    endDate: Date,
+    lateSubmission: Boolean,
+    latePenalty: Number
+  },
+  
+  createdBy: ObjectId (ref: User),
+  createdAt: Date,
+  updatedAt: Date
+}
+
+Submissions Collection
+{
+  _id: ObjectId,
+  assessment: ObjectId (ref: Assessment),
+  student: ObjectId (ref: User),
+  
+  answers: Array,
+  
+  grading: {
     score: Number,
     maxScore: Number,
-    timeSpent: Number, // in seconds
-    progress: Number, // percentage
-    resourceType: String
+    percentage: Number,
+    grade: String,
+    feedback: String,
+    gradedBy: ObjectId (ref: User),
+    gradedAt: Date,
+    autoGraded: Boolean
   },
-  timestamp: { type: Date, default: Date.now }
-});
-
-// server/services/analyticsService.js
-class AnalyticsService {
-  async trackUserProgress(userId, courseId, data) {
-    const analytics = new Analytics({
-      userId,
-      courseId,
-      eventType: 'time_spent',
-      metadata: data
-    });
-    
-    await analytics.save();
-    
-    // Update user's overall progress
-    await this.updateUserProgress(userId, courseId);
-  }
-
-  async generatePerformanceReport(userId, courseId) {
-    const activities = await Analytics.find({ userId, courseId });
-    
-    const report = {
-      totalTimeSpent: this.calculateTotalTime(activities),
-      completionRate: this.calculateCompletionRate(activities),
-      averageScore: this.calculateAverageScore(activities),
-      weakAreas: this.identifyWeakAreas(activities),
-      recommendations: this.generateRecommendations(activities)
-    };
-
-    return report;
-  }
-
-  async generateAIRecommendations(userId) {
-    const userData = await this.getUserLearningData(userId);
-    const prompt = this.buildRecommendationPrompt(userData);
-    
-    return await aiService.generateChatResponse([{ role: 'user', content: prompt }]);
-  }
-}
-```
-
-## 9. Library System
-
-```javascript
-// server/models/Library.js
-const librarySchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  author: { type: String, required: true },
-  description: String,
-  category: [String],
-  tags: [String],
-  fileUrl: { type: String, required: true },
-  coverImage: String,
-  fileType: { 
-    type: String, 
-    enum: ['pdf', 'epub', 'video', 'audio', 'document'],
-    required: true 
+  
+  proctoring: {
+    sessionId: String,
+    violations: Array,
+    screenshots: Array,
+    videoRecording: String,
+    behaviorScore: Number
   },
+  
   metadata: {
-    pages: Number,
-    duration: Number, // for audio/video
-    fileSize: Number,
-    language: String,
-    publishDate: Date
+    startTime: Date,
+    endTime: Date,
+    timeSpent: Number,
+    attemptNumber: Number,
+    ipAddress: String,
+    userAgent: String
   },
-  ratings: [{
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    rating: { type: Number, min: 1, max: 5 },
-    review: String,
-    createdAt: { type: Date, default: Date.now }
-  }],
-  averageRating: { type: Number, default: 0 },
-  accessLevel: {
-    type: String,
-    enum: ['public', 'students', 'instructors', 'premium'],
-    default: 'students'
-  },
-  isFeatured: { type: Boolean, default: false }
-}, { timestamps: true });
-```
-
-## 10. PWA Implementation
-
-### Service Worker
-```javascript
-// client/public/sw.js
-const CACHE_NAME = 'lms-ai-v1';
-const urlsToCache = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
-];
-
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
-  );
-});
-```
-
-### Manifest
-```json
-{
-  "name": "AI-Powered LMS",
-  "short_name": "AI LMS",
-  "description": "Intelligent Learning Management System",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3B82F6",
-  "icons": [
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  
+  status: Enum ['in-progress', 'submitted', 'graded'],
+  submittedAt: Date
 }
-```
 
-## 11. Deployment & Environment Setup
-
-### Environment Variables
-```env
-# Server
-NODE_ENV=production
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/lms-ai
-JWT_SECRET=your_jwt_secret
-CLIENT_URL=http://localhost:3000
-
-# AI Services
-OPENAI_API_KEY=your_openai_key
-GEMINI_API_KEY=your_gemini_key
-
-# File Storage
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
-# Email
-EMAIL_SERVICE=gmail
-EMAIL_USER=your_email
-EMAIL_PASS=your_app_password
-```
-
-### Docker Configuration
-```dockerfile
-# Dockerfile
-FROM node:18-alpine
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci --only=production
-
-COPY . .
-
-EXPOSE 5000
-
-CMD ["npm", "start"]
-```
-
-## Next Steps
-
-1. **Setup Development Environment**
-   - Initialize MongoDB
-   - Configure environment variables
-   - Install dependencies
-
-2. **Implement Core Features**
-   - Authentication system
-   - Basic dashboard layouts
-   - AI service integration
-
-3. **Add Advanced Features**
-   - Real-time collaboration
-   - Advanced analytics
-   - Mobile optimization
-
-4. **Testing & Deployment**
-   - Unit and integration tests
-   - Performance optimization
-   - Production deployment
-
-This documentation provides a comprehensive foundation for building your AI-powered LMS. Each section can be expanded with more detailed implementation based on specific requirements.
+Frontend:
+React
+Next.js
+Vue.js
+Angular
+Backend:
+Node.js
+Express.js
+Django
+Ruby on Rails
+Database:
+MongoDB
+MySQL
+PostgreSQL
+Redis
+AWS DynamoDB
+AI Services:
+OpenAI
+Google Gemini
+Hugging Face
+IBM Watson
+Microsoft Azure
+AWS SageMaker
+AWS Textract
+AWS Comprehend
+AWS Rekognition
+AWS Polly
+AWS Transcribe
+AWS Translate
+AWS Lex
